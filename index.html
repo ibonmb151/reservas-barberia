@@ -1,0 +1,1973 @@
+<!doctype html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SALON ELEGANCIA - Barbería Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & ROOT ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      height: 100%;
+      width: 100%;
+      scroll-padding-top: 70px;
+    }
+
+    body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Lora', serif;
+      background: #faf8f5;
+      color: #2c2c2c;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== VARIABLES CSS ===== */
+    :root {
+      --primary: #1a1a1a;
+      --secondary: #d4a574;
+      --accent: #8b6f47;
+      --light: #faf8f5;
+      --text: #2c2c2c;
+      --muted: #888888;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--secondary);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 0.7rem 1.8rem;
+      border-radius: 50px;
+      border: 1px solid var(--secondary);
+      background: transparent;
+      color: var(--secondary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      background: var(--secondary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-container { padding: 1rem 1.5rem; }
+      .nav-logo { font-size: 1.4rem; }
+      .nav-btn { padding: 0.5rem 1rem; font-size: 0.75rem; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container { padding: 0.6rem 0.8rem; }
+      .nav-logo { font-size: 1.2rem; letter-spacing: 1px; }
+      .nav-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      margin-top: 70px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2620 50%, #1a1a1a 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 3rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -5%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      animation: slideInLeft 0.8s ease 0.1s both;
+    }
+
+    .hero-text .subtitle {
+      font-size: 1.3rem;
+      color: var(--secondary);
+      margin-bottom: 2rem;
+      font-weight: 500;
+      animation: slideInLeft 0.8s ease 0.2s both;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: #d0d0d0;
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+      animation: slideInLeft 0.8s ease 0.3s both;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.5rem;
+      animation: slideInLeft 0.8s ease 0.4s both;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: var(--secondary);
+      color: var(--primary);
+      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(212, 165, 116, 0.4);
+      background: #e5b88a;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--secondary);
+      color: var(--primary);
+    }
+
+    .hero-image {
+      position: relative;
+      height: 500px;
+      animation: slideInRight 0.8s ease 0.3s both;
+    }
+
+    .hero-image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-image-placeholder::before {
+      content: '✂️';
+      font-size: 6rem;
+      opacity: 0.3;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-container { grid-template-columns: 1fr; }
+      .hero-text h1 { font-size: 3rem; }
+      .hero { min-height: auto; padding: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+      .hero { margin-top: 60px; min-height: 70vh; padding: 2rem 1rem; }
+      .hero-text h1 { font-size: 2.2rem; margin-bottom: 1rem; }
+      .hero-text .subtitle { font-size: 1rem; margin-bottom: 1rem; }
+      .hero-text p { font-size: 0.95rem; margin-bottom: 1.5rem; }
+      .hero-cta { flex-direction: column; gap: 1rem; }
+      .hero-cta .btn { width: 100%; padding: 0.9rem 1.5rem; }
+      .hero-image { height: 300px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { margin-top: 55px; min-height: 100vh; padding: 1.5rem 1rem; }
+      .hero-text h1 { font-size: 1.8rem; line-height: 1.1; margin-bottom: 0.8rem; }
+      .hero-text .subtitle { font-size: 0.85rem; margin-bottom: 0.8rem; }
+      .hero-text p { font-size: 0.9rem; margin-bottom: 1.2rem; }
+      .btn { padding: 0.8rem 1.5rem; font-size: 0.8rem; }
+      .hero-image { height: 250px; }
+    }
+
+    /* ===== SERVICIOS ===== */
+    .servicios {
+      padding: 6rem 3rem;
+      background: var(--light);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      letter-spacing: -1px;
+    }
+
+    .section-header p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .servicios-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .servicio-card {
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--secondary);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    .servicio-card:nth-child(1) { animation-delay: 0.1s; }
+    .servicio-card:nth-child(2) { animation-delay: 0.2s; }
+    .servicio-card:nth-child(3) { animation-delay: 0.3s; }
+    .servicio-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .servicio-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .servicio-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .servicio-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    .servicio-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .servicios { padding: 3rem 1.5rem; }
+      .section-header h2 { font-size: 1.8rem; margin-bottom: 0.8rem; }
+      .section-header p { font-size: 0.95rem; }
+      .servicios-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .servicio-card { padding: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .servicios { padding: 2rem 1rem; }
+      .section-header h2 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+      .section-header p { font-size: 0.9rem; }
+      .servicio-card { padding: 1rem; }
+      .servicio-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+      .servicio-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+      .servicio-card p { font-size: 0.85rem; }
+    }
+
+    /* ===== PELUQUEROS ===== */
+    .peluqueros {
+      padding: 6rem 3rem;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .peluqueros .section-header {
+      color: #fff;
+    }
+
+    .peluqueros .section-header h2 {
+      color: #fff;
+    }
+
+    .peluqueros .section-header p {
+      color: #ccc;
+    }
+
+    .peluqueros-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .peluquero-card {
+      background: rgba(212, 165, 116, 0.1);
+      border: 1px solid rgba(212, 165, 116, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    .peluquero-card:nth-child(1) { animation-delay: 0.1s; }
+    .peluquero-card:nth-child(2) { animation-delay: 0.2s; }
+    .peluquero-card:nth-child(3) { animation-delay: 0.3s; }
+    .peluquero-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .peluquero-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--secondary);
+      background: rgba(212, 165, 116, 0.15);
+      box-shadow: 0 15px 40px rgba(212, 165, 116, 0.2);
+    }
+
+    .peluquero-image {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #8b6f47 0%, #5a4a3a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .peluquero-info {
+      padding: 2rem;
+    }
+
+    .peluquero-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .peluquero-especialidad {
+      color: #aaa;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .peluquero-experiencia {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .peluquero-anos {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    .peluquero-anos-label {
+      color: #aaa;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .peluqueros { padding: 3rem 1.5rem; }
+      .peluquero-image { height: 250px; }
+      .peluquero-info { padding: 1.5rem; }
+      .peluquero-nombre { font-size: 1.2rem; }
+      .peluqueros-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .peluqueros { padding: 2rem 1rem; }
+      .peluquero-image { height: 200px; }
+      .peluquero-info { padding: 1rem; }
+      .peluquero-nombre { font-size: 1.1rem; }
+      .peluquero-anos { font-size: 1.3rem; }
+    }
+
+    /* ===== RESERVAS ===== */
+    .reservas {
+      padding: 6rem 3rem;
+      background: var(--light);
+    }
+
+    .reservas-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .reservas-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .reservas-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .reservas-header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== STEPS INDICATOR ===== */
+    .steps-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .steps-indicator::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #ddd;
+      z-index: 0;
+    }
+
+    .step-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: #ddd;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .step-item.active .step-number {
+      background: var(--secondary);
+      color: var(--primary);
+      transform: scale(1.15);
+      box-shadow: 0 5px 20px rgba(212, 165, 116, 0.3);
+    }
+
+    .step-item.completed .step-number {
+      background: var(--secondary);
+      color: var(--primary);
+    }
+
+    .step-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .step-item.active .step-label {
+      color: var(--secondary);
+    }
+
+    /* ===== FORM STEPS ===== */
+    .form-step {
+      display: none;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    .reservas-form {
+      background: #fff;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    /* ===== BARBERO GRID ===== */
+    .barberos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .barbero-option {
+      padding: 1.5rem;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      background: #f9f9f9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .barbero-option:hover {
+      border-color: var(--secondary);
+      background: rgba(212, 165, 116, 0.05);
+    }
+
+    .barbero-option.selected {
+      border-color: var(--secondary);
+      background: rgba(212, 165, 116, 0.1);
+    }
+
+    .barbero-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .barbero-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .barbero-especialidad {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      .barberos-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .barbero-option { padding: 1rem; }
+      .barbero-emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+      .barbero-nombre { font-size: 0.95rem; }
+      .barbero-especialidad { font-size: 0.75rem; }
+    }
+
+    @media (max-width: 480px) {
+      .barberos-grid { grid-template-columns: 1fr; gap: 0.8rem; }
+      .barbero-option { padding: 0.8rem; }
+      .barbero-emoji { font-size: 1.8rem; margin-bottom: 0.3rem; }
+      .barbero-nombre { font-size: 0.9rem; }
+      .barbero-especialidad { font-size: 0.7rem; }
+    }
+
+    /* ===== FORM GROUP ===== */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.7rem;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      color: var(--primary);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #999;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+      background: rgba(212, 165, 116, 0.02);
+    }
+
+    @media (max-width: 768px) {
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 0.9rem 0.8rem;
+        font-size: 16px;
+        min-height: 44px;
+      }
+      .form-group label { font-size: 0.9rem; margin-bottom: 0.5rem; }
+      .form-group { margin-bottom: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 0.85rem 0.05rem;
+        font-size: 16px;
+        min-height: 44px;
+      }
+      .form-group label { font-size: 0.85rem; margin-bottom: 0.4rem; }
+      .form-group { margin-bottom: 1rem; }
+    }
+
+    /* ===== HORARIOS GRID ===== */
+    .horarios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .horario-btn {
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .horario-btn:hover:not(:disabled) {
+      border-color: var(--secondary);
+      background: rgba(212, 165, 116, 0.05);
+    }
+
+    .horario-btn.selected {
+      background: var(--secondary);
+      color: var(--primary);
+      border-color: var(--secondary);
+    }
+
+    .horario-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    @media (max-width: 768px) {
+      .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+      .horario-btn { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 480px) {
+      .horarios-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+      .horario-btn { padding: 0.7rem 0.4rem; font-size: 0.8rem; }
+    }
+
+    /* ===== RESUMEN ===== */
+    .resumen-box {
+      background: rgba(212, 165, 116, 0.08);
+      border: 1px solid rgba(212, 165, 116, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .resumen-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .resumen-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+      font-size: 0.95rem;
+    }
+
+    .resumen-item:last-child {
+      border-bottom: none;
+    }
+
+    .resumen-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .resumen-valor {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .resumen-box { padding: 1.5rem; margin: 1.5rem 0; }
+      .resumen-title { font-size: 1.1rem; }
+      .resumen-item { font-size: 0.9rem; padding: 0.6rem 0; }
+    }
+
+    @media (max-width: 480px) {
+      .resumen-box { padding: 1rem; margin: 1rem 0; }
+      .resumen-title { font-size: 1rem; margin-bottom: 0.8rem; }
+      .resumen-item { font-size: 0.85rem; padding: 0.5rem 0; }
+    }
+
+    /* ===== BOTONES ===== */
+    .form-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .btn-back {
+      padding: 0.8rem 2rem;
+      background: transparent;
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+
+    .btn-back:hover {
+      background: var(--secondary);
+      color: var(--primary);
+    }
+
+    .form-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--secondary);
+      color: var(--primary);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-btn:hover {
+      background: #e5b88a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.2);
+    }
+
+    .form-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .form-buttons { flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+      .btn-back { width: 100%; padding: 0.8rem 1rem; font-size: 0.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      .form-buttons { flex-direction: column; gap: 1rem; margin-top: 1rem; }
+      .form-btn { padding: 0.85rem; font-size: 0.85rem; }
+      .btn-back { padding: 0.65rem 1rem; font-size: 0.75rem; }
+    }
+
+    /* ===== CONFIRMATION ===== */
+    .confirmation-box {
+      background: #fff;
+      padding: 3rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .confirmation-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    .confirmation-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .confirmation-box p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .confirmation-box { padding: 1.5rem; }
+      .confirmation-icon { font-size: 3rem; }
+      .confirmation-box h2 { font-size: 1.4rem; }
+      .confirmation-box p { font-size: 0.9rem; }
+    }
+
+    /* ===== LOADING ===== */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(212, 165, 116, 0.2);
+      border-top: 4px solid var(--secondary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ===== NOTIFICATION ===== */
+    .notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1.2rem 2rem;
+      background: var(--secondary);
+      color: var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.3);
+      animation: slideInToast 0.4s ease;
+      z-index: 5000;
+      display: none;
+    }
+
+    .notification.show {
+      display: block;
+    }
+
+    .notification.error {
+      background: #e74c3c;
+      color: white;
+    }
+
+    @keyframes slideInToast {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== REVIEWS ===== */
+    .reviews {
+      padding: 6rem 3rem;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .reviews .section-header {
+      color: #fff;
+    }
+
+    .reviews .section-header h2 {
+      color: #fff;
+    }
+
+    .reviews .section-header p {
+      color: #ccc;
+    }
+
+    .reviews-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .review-card {
+      background: rgba(212, 165, 116, 0.1);
+      border: 1px solid rgba(212, 165, 116, 0.2);
+      padding: 2.5rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    .review-card:nth-child(1) { animation-delay: 0.1s; }
+    .review-card:nth-child(2) { animation-delay: 0.2s; }
+    .review-card:nth-child(3) { animation-delay: 0.3s; }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--secondary);
+      background: rgba(212, 165, 116, 0.15);
+    }
+
+    .stars {
+      color: var(--secondary);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      color: #d0d0d0;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .review-author {
+      color: var(--secondary);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .reviews { padding: 3rem 1.5rem; }
+      .reviews-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .reviews { padding: 2rem 1rem; }
+    }
+
+    /* ===== LOCALIZACION ===== */
+    .localizacion {
+      padding: 6rem 3rem;
+      background: var(--light);
+    }
+
+    .localizacion-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .localizacion-mapa {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      height: 450px;
+    }
+
+    .mapa-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 3rem;
+    }
+
+    .localizacion-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .info-item {
+      margin-bottom: 2rem;
+    }
+
+    .info-label {
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+      color: var(--text);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-value a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .info-value a:hover {
+      color: var(--secondary);
+    }
+
+    .mapa-btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--secondary);
+      color: var(--primary);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .mapa-btn:hover {
+      background: #e5b88a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.2);
+    }
+
+    @media (max-width: 1024px) {
+      .localizacion-container { grid-template-columns: 1fr; }
+      .localizacion-mapa { height: 350px; }
+    }
+
+    @media (max-width: 768px) {
+      .localizacion { padding: 3rem 1.5rem; }
+      .localizacion-mapa { height: 300px; margin-bottom: 1.5rem; }
+      .localizacion-info h3 { font-size: 1.8rem; }
+      .info-item { margin-bottom: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .localizacion { padding: 2rem 1rem; }
+      .localizacion-mapa { height: 250px; margin-bottom: 1rem; }
+      .mapa-placeholder { font-size: 2.5rem; }
+      .localizacion-info h3 { font-size: 1.5rem; }
+      .info-item { margin-bottom: 1rem; }
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary);
+      color: #fff;
+      padding: 4rem 3rem 2rem;
+      border-top: 1px solid rgba(212, 165, 116, 0.2);
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+    }
+
+    .footer-section h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .footer-section a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.7rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: var(--secondary);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      color: #999;
+      font-size: 0.85rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      footer { padding: 2rem 1.5rem 1rem; }
+      .footer-content { gap: 1.5rem; margin-bottom: 1rem; }
+      .footer-section h4 { font-size: 1rem; }
+      .footer-section a { font-size: 0.85rem; }
+    }
+
+    @media (max-width: 480px) {
+      footer { padding: 1.5rem 1rem 0.8rem; }
+      .footer-content { gap: 1rem; margin-bottom: 0.8rem; }
+      .footer-section h4 { font-size: 0.95rem; margin-bottom: 0.6rem; }
+      .footer-section a { font-size: 0.8rem; margin-bottom: 0.4rem; }
+    }
+
+    /* ===== ANIMACIONES ===== */
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .reservas { padding: 3rem 1.5rem; }
+      .reservas-header h3 { font-size: 1.8rem; margin-bottom: 0.8rem; }
+      .reservas-header p { font-size: 0.95rem; }
+      .reservas-form { padding: 1.5rem; }
+      .form-step-title { font-size: 1.4rem; margin-bottom: 1.5rem; }
+      .steps-indicator { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .reservas { padding: 2rem 1rem; }
+      .reservas-header h3 { font-size: 1.5rem; margin-bottom: 0.6rem; }
+      .reservas-header p { font-size: 0.9rem; }
+      .reservas-form { padding: 1rem; }
+      .form-step-title { font-size: 1.2rem; margin-bottom: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav role="navigation" aria-label="Navegación principal">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">ELEGANCIA</a>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#peluqueros">Equipo</a></li>
+        <li><a href="#reservas">Reservar</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#localizacion">Localización</a></li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="#reservas" class="nav-btn">Reservar Cita</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" aria-label="Sección principal">
+    <div class="hero-container">
+      <div class="hero-text">
+        <div class="subtitle">Bienvenido a</div>
+        <h1>Salón Elegancia</h1>
+        <p>Transforma tu estilo con nuestro equipo de profesionales expertos. Cada corte es una obra de arte diseñada especialmente para ti.</p>
+        <div class="hero-cta">
+          <a href="#reservas" class="btn btn-primary">Reservar Ahora</a>
+          <a href="#peluqueros" class="btn btn-secondary">Conocer al Equipo</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-image-placeholder"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="servicios" aria-label="Nuestros servicios">
+    <div class="section-header">
+      <h2>Nuestros Servicios</h2>
+      <p>Ofrecemos una amplia gama de servicios de peluquería y cuidado capilar con los mejores productos premium</p>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card">
+        <div class="servicio-icon">✂️</div>
+        <h3>Cortes Clásicos</h3>
+        <p>Cortes precisos y modernos diseñados para realzar tus facciones. Nuestros profesionales se especializan en técnicas tradicionales y contemporáneas.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">💇</div>
+        <h3>Coloración Permanente</h3>
+        <p>Transformamos el color de tu cabello con tinturas profesionales de alta calidad. Desde colores naturales hasta looks atrevidos.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">🌊</div>
+        <h3>Tratamientos Capilares</h3>
+        <p>Nutritivos y reparadores que devuelven vida a tu cabello. Ideal para cabellos dañados, secos o debilitados.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">✨</div>
+        <h3>Peinados Especiales</h3>
+        <p>Creaciones personalizadas para bodas, eventos y ocasiones especiales. Nuestro equipo crea diseños únicos y memorables.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PELUQUEROS -->
+  <section id="peluqueros" class="peluqueros" aria-label="Nuestro equipo">
+    <div class="section-header">
+      <h2>Nuestro Equipo</h2>
+      <p>Conoce a los expertos detrás de cada transformación capilar</p>
+    </div>
+    <div class="peluqueros-grid">
+      <div class="peluquero-card">
+        <div class="peluquero-image">💇‍♂️</div>
+        <div class="peluquero-info">
+          <div class="peluquero-nombre">Carlos</div>
+          <div class="peluquero-especialidad">Maestro Barbero</div>
+          <p class="peluquero-experiencia">Experto en barbería de precisión y diseño de barba. Entrenado en técnicas clásicas y modernas. Referencia en la ciudad por sus cortes impecables.</p>
+          <div class="peluquero-anos">10+</div>
+          <div class="peluquero-anos-label">Años de Experiencia</div>
+        </div>
+      </div>
+
+      <div class="peluquero-card">
+        <div class="peluquero-image">💈</div>
+        <div class="peluquero-info">
+          <div class="peluquero-nombre">Miguel</div>
+          <div class="peluquero-especialidad">Especialista en Cortes</div>
+          <p class="peluquero-experiencia">Especializado en técnicas de corte moderno y diseño personalizado. Siempre atento a las últimas tendencias internacionales de la barbería.</p>
+          <div class="peluquero-anos">8+</div>
+          <div class="peluquero-anos-label">Años de Experiencia</div>
+        </div>
+      </div>
+
+      <div class="peluquero-card">
+        <div class="peluquero-image">✂️</div>
+        <div class="peluquero-info">
+          <div class="peluquero-nombre">Juan</div>
+          <div class="peluquero-especialidad">Experto en Estilismo</div>
+          <p class="peluquero-experiencia">Especialista en diseño de imagen y asesoramiento de estilo. Capaz de crear looks únicos adaptados a cada tipo de rostro y personalidad.</p>
+          <div class="peluquero-anos">12+</div>
+          <div class="peluquero-anos-label">Años de Experiencia</div>
+        </div>
+      </div>
+
+      <div class="peluquero-card">
+        <div class="peluquero-image">👨‍🦰</div>
+        <div class="peluquero-info">
+          <div class="peluquero-nombre">Antonio</div>
+          <div class="peluquero-especialidad">Tratamientos Especiales</div>
+          <p class="peluquero-experiencia">Especialista en cuidado capilar y tratamientos reconstructivos. Experto en queratina, botox capilar y nutrición profunda del cabello.</p>
+          <div class="peluquero-anos">9+</div>
+          <div class="peluquero-anos-label">Años de Experiencia</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVAS -->
+  <section id="reservas" class="reservas" aria-label="Sistema de reservas">
+    <div class="reservas-inner">
+      <!-- HEADER -->
+      <div class="reservas-header">
+        <h3>Reserva tu Cita</h3>
+        <p>Selecciona tu barbero, elige fecha y hora. Te pediremos tus datos al final para confirmar tu reserva.</p>
+      </div>
+
+      <!-- STEPS INDICATOR -->
+      <div class="steps-indicator">
+        <div class="step-item active" id="step-1-indicator">
+          <div class="step-number">1</div>
+          <div class="step-label">Barbero</div>
+        </div>
+        <div class="step-item" id="step-2-indicator">
+          <div class="step-number">2</div>
+          <div class="step-label">Fecha</div>
+        </div>
+        <div class="step-item" id="step-3-indicator">
+          <div class="step-number">3</div>
+          <div class="step-label">Hora</div>
+        </div>
+        <div class="step-item" id="step-4-indicator">
+          <div class="step-number">4</div>
+          <div class="step-label">Datos</div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <form class="reservas-form" id="reservas-form">
+        <!-- STEP 1: BARBERO -->
+        <div class="form-step active" id="step-1">
+          <h2 class="form-step-title">Elige tu Barbero</h2>
+          <div class="barberos-grid">
+            <div class="barbero-option" onclick="selectBarbero('Carlos', this)">
+              <div class="barbero-emoji">💇‍♂️</div>
+              <div class="barbero-nombre">Carlos</div>
+              <div class="barbero-especialidad">Maestro Barbero</div>
+            </div>
+            <div class="barbero-option" onclick="selectBarbero('Miguel', this)">
+              <div class="barbero-emoji">💈</div>
+              <div class="barbero-nombre">Miguel</div>
+              <div class="barbero-especialidad">Especialista</div>
+            </div>
+            <div class="barbero-option" onclick="selectBarbero('Juan', this)">
+              <div class="barbero-emoji">✂️</div>
+              <div class="barbero-nombre">Juan</div>
+              <div class="barbero-especialidad">Experto</div>
+            </div>
+            <div class="barbero-option" onclick="selectBarbero('Antonio', this)">
+              <div class="barbero-emoji">👨‍🦰</div>
+              <div class="barbero-nombre">Antonio</div>
+              <div class="barbero-especialidad">Profesional</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: FECHA -->
+        <div class="form-step" id="step-2">
+          <h2 class="form-step-title">Elige la Fecha</h2>
+          <div class="form-group">
+            <label for="fecha">Selecciona un día</label>
+            <input type="date" id="fecha" required>
+          </div>
+          <button type="button" class="form-btn" onclick="confirmarFecha()" style="margin-top: 1rem;">Confirmar Fecha</button>
+        </div>
+
+        <!-- STEP 3: HORA -->
+        <div class="form-step" id="step-3">
+          <h2 class="form-step-title">Elige la Hora</h2>
+          <div id="loading-horarios" class="loading" style="display: none;">
+            <div class="spinner"></div>
+          </div>
+          <div class="horarios-grid" id="horarios-grid"></div>
+        </div>
+
+        <!-- STEP 4: DATOS -->
+        <div class="form-step" id="step-4">
+          <h2 class="form-step-title">Tus Datos</h2>
+          
+          <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" placeholder="Tu nombre completo" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" placeholder="tu@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" placeholder="+34 XXX XXX XXX" required>
+          </div>
+
+          <div class="form-group">
+            <label for="servicio">Servicio</label>
+            <select id="servicio" required>
+              <option value="">Selecciona un servicio</option>
+              <option value="corte">Corte Clásico</option>
+              <option value="coloracion">Coloración</option>
+              <option value="tratamiento">Tratamiento Capilar</option>
+              <option value="peinado">Peinado Especial</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="notas">Notas Adicionales (opcional)</label>
+            <textarea id="notas" placeholder="Cuéntanos tus preferencias..." rows="2"></textarea>
+          </div>
+
+          <!-- RESUMEN -->
+          <div class="resumen-box">
+            <div class="resumen-title">Resumen de tu Reserva</div>
+            <div class="resumen-item">
+              <span class="resumen-label">Barbero:</span>
+              <span class="resumen-valor" id="resumen-barbero">—</span>
+            </div>
+            <div class="resumen-item">
+              <span class="resumen-label">Fecha:</span>
+              <span class="resumen-valor" id="resumen-fecha">—</span>
+            </div>
+            <div class="resumen-item">
+              <span class="resumen-label">Hora:</span>
+              <span class="resumen-valor" id="resumen-hora">—</span>
+            </div>
+          </div>
+
+          <div class="form-buttons">
+            <button type="button" class="btn-back" onclick="prevStep(3)">← Atrás</button>
+            <button type="submit" class="form-btn" style="flex: 1;">Confirmar Reserva</button>
+          </div>
+        </div>
+
+        <!-- CONFIRMATION -->
+        <div class="form-step" id="step-confirmation">
+          <div class="confirmation-box">
+            <div class="confirmation-icon">✓</div>
+            <h2>¡Reserva Confirmada!</h2>
+            <p>Tu cita ha sido reservada exitosamente.</p>
+            <p>Hemos enviado un email de confirmación a <strong id="conf-email"></strong></p>
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted);">Barbero: <strong id="conf-barbero"></strong> | Fecha: <strong id="conf-fecha"></strong> | Hora: <strong id="conf-hora"></strong></p>
+            <button type="button" class="btn btn-primary" onclick="resetForm()" style="margin-top: 2rem;">Hacer otra reserva</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="reviews" aria-label="Opiniones de clientes">
+    <div class="section-header">
+      <h2>Lo Que Dicen Nuestros Clientes</h2>
+      <p>Opiniones de clientes satisfechos con nuestros servicios</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Increíble experiencia. Carlos me hizo un corte espectacular que llevo soñando hace años. ¡Volveré sin dudarlo!"</p>
+        <p class="review-author">— Roberto García</p>
+      </div>
+
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Miguel es un maestro de su oficio. El corte perfecto, la barbería impecable. El mejor barbero de la ciudad sin duda."</p>
+        <p class="review-author">— David Pérez</p>
+      </div>
+
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Juan me asesoró perfectamente sobre qué corte me favorecía. Ahora me siento mucho mejor conmigo mismo. ¡Muy recomendado!"</p>
+        <p class="review-author">— Miguel Sánchez</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCALIZACION -->
+  <section id="localizacion" class="localizacion" aria-label="Ubicación y contacto">
+    <div class="localizacion-container">
+      <div class="localizacion-mapa">
+        <div class="mapa-placeholder">📍</div>
+      </div>
+
+      <div class="localizacion-info">
+        <h3>Encuéntranos</h3>
+
+        <div class="info-item">
+          <div class="info-label">Dirección</div>
+          <p class="info-value">Calle Principal, 123<br>Madrid, España</p>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Teléfono</div>
+          <p class="info-value"><a href="tel:+34912345678">+34 91 234 5678</a></p>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Email</div>
+          <p class="info-value"><a href="mailto:info@salonelegancia.es">info@salonelegancia.es</a></p>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Horario</div>
+          <p class="info-value">
+            Lunes a Viernes: 09:00 - 19:00<br>
+            Sábados: 10:00 - 18:00<br>
+            Domingos: Cerrado
+          </p>
+        </div>
+
+        <a href="https://www.google.com/maps/search/Madrid/" target="_blank" class="mapa-btn">
+          Ver en Google Maps
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-content">
+      <section class="footer-section">
+        <h4>Salón</h4>
+        <a href="#servicios">Servicios</a>
+        <a href="#peluqueros">Equipo</a>
+        <a href="#reservas">Reservar</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#localizacion">Ubicación</a>
+      </section>
+      <section class="footer-section">
+        <h4>Información</h4>
+        <a href="#">Sobre Nosotros</a>
+        <a href="#">Políticas</a>
+        <a href="#">Términos</a>
+        <a href="#">Privacidad</a>
+      </section>
+      <section class="footer-section">
+        <h4>Contacto</h4>
+        <a href="tel:+34912345678">+34 91 234 5678</a>
+        <a href="mailto:info@salonelegancia.es">info@salonelegancia.es</a>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </section>
+      <section class="footer-section">
+        <h4>Horario</h4>
+        <p style="color: #ccc; font-size: 0.9rem;">
+          L-V: 09:00 - 19:00<br>
+          S: 10:00 - 18:00<br>
+          D: Cerrado
+        </p>
+      </section>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Salón Elegancia. Todos los derechos reservados. | Diseñado con elegancia</p>
+    </div>
+  </footer>
+
+  <!-- NOTIFICATION -->
+  <div id="notification" class="notification"></div>
+
+  <script>
+    // ===== CONFIGURACIÓN =====
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzC2xDG5gCgkqoWRoMPhDFPIDiYfTCdk_yP644ZkD3snTV6BbgD3Nx7WyWgHZsggYZO4g/exec';
+    const CLOUDFLARE_PROXY = 'https://black-resonance-d395.ibonjon-mariscal.workers.dev/';
+
+    const CONFIG = {
+      HORARIO_INICIO: 9,
+      HORARIO_FIN: 20,
+      INTERVALO: 30
+    };
+
+    let app = {
+      step: 1,
+      selectedBarbero: null,
+      selectedFecha: null,
+      selectedHora: null
+    };
+
+    // ===== UTILIDADES =====
+    function showNotification(message, type = 'success') {
+      const notif = document.getElementById('notification');
+      notif.textContent = message;
+      notif.className = `notification show ${type === 'error' ? 'error' : ''}`;
+      setTimeout(() => notif.classList.remove('show'), 3000);
+    }
+
+    function formatDateSpanish(dateStr) {
+      const date = new Date(dateStr + 'T00:00:00');
+      return date.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    function generateTimeSlots() {
+      const slots = [];
+      for (let hour = CONFIG.HORARIO_INICIO; hour < CONFIG.HORARIO_FIN; hour++) {
+        for (let min = 0; min < 60; min += CONFIG.INTERVALO) {
+          slots.push(`${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`);
+        }
+      }
+      return slots;
+    }
+
+    // ===== STEP NAVIGATION =====
+    function goToStep(step) {
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.step-item').forEach(s => s.classList.remove('active', 'completed'));
+
+      if (step === 'confirmation') {
+        document.getElementById('step-confirmation').classList.add('active');
+        document.querySelectorAll('.step-item').forEach(s => s.classList.add('completed'));
+      } else {
+        document.getElementById(`step-${step}`).classList.add('active');
+        for (let i = 1; i < step; i++) {
+          document.getElementById(`step-${i}-indicator`).classList.add('completed');
+        }
+        if (step <= 4) {
+          document.getElementById(`step-${step}-indicator`).classList.add('active');
+        }
+      }
+      app.step = step;
+    }
+
+    function prevStep(step) {
+      goToStep(step);
+    }
+
+    // ===== BARBERO SELECTION =====
+    function selectBarbero(nombre, element) {
+      document.querySelectorAll('.barbero-option').forEach(el => el.classList.remove('selected'));
+      element.classList.add('selected');
+      app.selectedBarbero = nombre;
+      goToStep(2);
+    }
+
+    // ===== CONFIRMAR FECHA =====
+    function confirmarFecha() {
+      const fecha = document.getElementById('fecha').value;
+      if (!fecha) {
+        showNotification('Por favor selecciona una fecha', 'error');
+        return;
+      }
+      selectFecha(fecha);
+    }
+
+    // ===== FECHA SELECTION =====
+    function selectFecha(fecha) {
+      const selectedDate = new Date(fecha + 'T00:00:00');
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        showNotification('No puedes reservar en fechas pasadas', 'error');
+        document.getElementById('fecha').value = '';
+        return;
+      }
+
+      app.selectedFecha = fecha;
+      goToStep(3);
+      loadHorarios();
+    }
+
+    // ===== CARGAR HORARIOS =====
+    function loadHorarios() {
+      const loading = document.getElementById('loading-horarios');
+      const grid = document.getElementById('horarios-grid');
+
+      loading.style.display = 'block';
+      grid.innerHTML = '';
+
+      const gasUrl = `${GAS_URL}?action=getAvailability&date=${app.selectedFecha}&barber=${app.selectedBarbero}`;
+      const proxyUrl = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(gasUrl)}`;
+
+      fetch(proxyUrl)
+        .then(response => response.json())
+        .then(data => {
+          loading.style.display = 'none';
+
+          if (!data.success) {
+            throw new Error(data.message);
+          }
+
+          const timeSlots = generateTimeSlots();
+          const occupiedSlots = data.occupiedSlots || [];
+
+          timeSlots.forEach(time => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'horario-btn';
+            button.textContent = time;
+
+            if (occupiedSlots.includes(time)) {
+              button.disabled = true;
+            } else {
+              button.addEventListener('click', () => selectHora(time, button));
+            }
+
+            grid.appendChild(button);
+          });
+        })
+        .catch(err => {
+          loading.style.display = 'none';
+          showNotification(`Error: ${err.message}`, 'error');
+        });
+    }
+
+    // ===== HORA SELECTION =====
+    function selectHora(hora, element) {
+      document.querySelectorAll('.horario-btn').forEach(el => el.classList.remove('selected'));
+      element.classList.add('selected');
+      app.selectedHora = hora;
+      updateResumen();
+      goToStep(4);
+    }
+
+    // ===== ACTUALIZAR RESUMEN =====
+    function updateResumen() {
+      const fechaFormato = formatDateSpanish(app.selectedFecha);
+      document.getElementById('resumen-barbero').textContent = app.selectedBarbero;
+      document.getElementById('resumen-fecha').textContent = fechaFormato;
+      document.getElementById('resumen-hora').textContent = app.selectedHora;
+    }
+
+    // ===== FORM SUBMIT =====
+    document.getElementById('reservas-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const servicio = document.getElementById('servicio').value;
+      const notas = document.getElementById('notas').value.trim();
+
+      if (!nombre || !email || !telefono || !servicio) {
+        showNotification('Por favor completa todos los campos', 'error');
+        return;
+      }
+
+      const submitBtn = document.querySelector('.form-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Procesando...';
+
+      try {
+        const formData = new FormData();
+        formData.append('action', 'createReservation');
+        formData.append('date', app.selectedFecha);
+        formData.append('time', app.selectedHora);
+        formData.append('barber', app.selectedBarbero);
+        formData.append('fullName', nombre);
+        formData.append('email', email);
+        formData.append('phone', telefono);
+        formData.append('notes', notas);
+
+        const proxyUrl = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(GAS_URL)}`;
+
+        const response = await fetch(proxyUrl, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.message);
+        }
+
+        document.getElementById('conf-email').textContent = email;
+        document.getElementById('conf-barbero').textContent = app.selectedBarbero;
+        document.getElementById('conf-fecha').textContent = formatDateSpanish(app.selectedFecha);
+        document.getElementById('conf-hora').textContent = app.selectedHora;
+
+        goToStep('confirmation');
+        showNotification('¡Reserva confirmada exitosamente!', 'success');
+
+      } catch (err) {
+        showNotification(`Error: ${err.message}`, 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirmar Reserva';
+      }
+    });
+
+    // ===== RESET FORM =====
+    function resetForm() {
+      document.getElementById('reservas-form').reset();
+      app = { step: 1, selectedBarbero: null, selectedFecha: null, selectedHora: null };
+      goToStep(1);
+    }
+
+    // ===== DATE INPUT =====
+    const fechaInput = document.getElementById('fecha');
+    const hoy = new Date().toISOString().split('T')[0];
+    fechaInput.min = hoy;
+
+    // ===== SMOOTH SCROLL =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
