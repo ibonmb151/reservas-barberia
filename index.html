@@ -1,1972 +1,786 @@
-<!doctype html>
-<html lang="es" class="h-full">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SALON ELEGANCIA - Barbería Premium</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Salón Elegancia — Barbería Premium</title>
+  <meta name="description" content="Reserva tu cita en Salón Elegancia. Barbería premium con los mejores profesionales en Madrid.">
+  <meta property="og:title" content="Salón Elegancia — Barbería Premium">
+  <meta property="og:description" content="Reserva tu cita online. Cortes clásicos, coloración, tratamientos y peinados especiales.">
+  <meta property="og:type" content="website">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              50: '#fdf8f0',
+              100: '#f5e8d0',
+              200: '#e8cba0',
+              300: '#d9ad70',
+              400: '#c99545',
+              500: '#c4956a',
+              600: '#a67a53',
+              700: '#8a6f4f',
+              800: '#6d543d',
+              900: '#4d3b2a',
+            },
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'Georgia', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
   <style>
-    /* ===== RESET & ROOT ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #f5f0eb; }
+    .font-display { font-family: 'Playfair Display', Georgia, serif; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
 
-    html {
-      scroll-behavior: smooth;
-      height: 100%;
-      width: 100%;
-      scroll-padding-top: 70px;
+    .nav-scrolled { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(196, 149, 106, 0.15); }
+
+    @media (max-width: 767px) {
+      .nav-menu { position: fixed; inset: 0; top: 64px; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(16px); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
+      .nav-menu.open { transform: translateX(0); }
     }
 
-    body {
-      height: 100%;
-      width: 100%;
-      font-family: 'Lora', serif;
-      background: #faf8f5;
-      color: #2c2c2c;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    .service-card, .team-card, .review-card { transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
+    .service-card:hover, .team-card:hover { transform: translateY(-4px); }
 
-    /* ===== VARIABLES CSS ===== */
-    :root {
-      --primary: #1a1a1a;
-      --secondary: #d4a574;
-      --accent: #8b6f47;
-      --light: #faf8f5;
-      --text: #2c2c2c;
-      --muted: #888888;
-    }
+    .slot-btn { transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
+    .slot-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
+    .slot-btn.selected { background: #c4956a; color: #0a0a0a; border-color: #c4956a; }
 
-    /* ===== NAVBAR ===== */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(26, 26, 26, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(212, 165, 116, 0.2);
-    }
+    .barber-tab { transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
+    .barber-tab.active { background: #c4956a; color: #0a0a0a; border-color: #c4956a; }
 
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 3rem;
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    .cal-day { transition: all 0.15s cubic-bezier(0.23, 1, 0.32, 1); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 9999px; cursor: pointer; font-size: 0.875rem; }
+    .cal-day:hover:not(.empty):not(.disabled) { background: rgba(196, 149, 106, 0.2); }
+    .cal-day.today { border: 1px solid rgba(196, 149, 106, 0.4); }
+    .cal-day.selected { background: #c4956a; color: #0a0a0a; font-weight: 600; }
+    .cal-day.disabled { opacity: 0.2; cursor: default; }
+    .cal-day.empty { cursor: default; }
 
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--secondary);
-      letter-spacing: 2px;
-      text-decoration: none;
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
+    .input-field { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f5f0eb; width: 100%; transition: border-color 0.2s; font-size: 0.9375rem; }
+    .input-field:focus { outline: none; border-color: #c4956a; }
+    .input-field::placeholder { color: rgba(245, 240, 235, 0.3); }
+    .input-label { display: block; font-size: 0.8125rem; font-weight: 500; color: rgba(245, 240, 235, 0.6); margin-bottom: 0.375rem; text-transform: uppercase; letter-spacing: 0.06em; }
 
-    .nav-links a {
-      color: #f0f0f0;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.3s ease;
-      position: relative;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.85rem;
-    }
+    select.input-field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23c4956a' stroke-width='1.5'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    select.input-field option { background: #1a1a1a; color: #f5f0eb; }
 
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--secondary);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: #c4956a; color: #0a0a0a; padding: 1rem 1.5rem; border-radius: 0.5rem; font-weight: 500; font-size: 0.9375rem; transform: translateY(120%); opacity: 0; transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); z-index: 100; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    @media (max-width: 640px) { .toast { right: 1rem; left: 1rem; bottom: 1rem; text-align: center; } }
 
-    .nav-links a:hover {
-      color: var(--secondary);
-    }
+    .hero-divider { width: 3rem; height: 1px; background: #c4956a; margin: 1.5rem 0; }
+    .hero-divider-large { width: 4rem; height: 2px; background: #c4956a; margin: 2rem 0; }
 
-    .nav-links a:hover::after {
-      width: 100%;
-    }
+    .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; }
+    .section-subtitle { font-size: 1.0625rem; color: rgba(245, 240, 235, 0.5); max-width: 36rem; line-height: 1.6; }
 
-    .nav-buttons {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .nav-btn {
-      padding: 0.7rem 1.8rem;
-      border-radius: 50px;
-      border: 1px solid var(--secondary);
-      background: transparent;
-      color: var(--secondary);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-
-    .nav-btn:hover {
-      background: var(--secondary);
-      color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-container { padding: 1rem 1.5rem; }
-      .nav-logo { font-size: 1.4rem; }
-      .nav-btn { padding: 0.5rem 1rem; font-size: 0.75rem; }
-    }
+    .btn-primary { background: #c4956a; color: #0a0a0a; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 500; font-size: 0.9375rem; transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary:hover { background: #d4a574; transform: translateY(-1px); }
+    .btn-secondary { border: 1px solid rgba(196, 149, 106, 0.3); color: #f5f0eb; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 500; font-size: 0.9375rem; transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-secondary:hover { border-color: #c4956a; background: rgba(196, 149, 106, 0.1); }
 
     @media (max-width: 480px) {
-      .nav-container { padding: 0.6rem 0.8rem; }
-      .nav-logo { font-size: 1.2rem; letter-spacing: 1px; }
-      .nav-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
-    }
-
-    /* ===== HERO SECTION ===== */
-    .hero {
-      margin-top: 70px;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2a2620 50%, #1a1a1a 100%);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      padding: 3rem;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      left: -5%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .hero-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-text h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 4.5rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 1.5rem;
-      letter-spacing: -1px;
-      line-height: 1.1;
-      animation: slideInLeft 0.8s ease 0.1s both;
-    }
-
-    .hero-text .subtitle {
-      font-size: 1.3rem;
-      color: var(--secondary);
-      margin-bottom: 2rem;
-      font-weight: 500;
-      animation: slideInLeft 0.8s ease 0.2s both;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .hero-text p {
-      font-size: 1.1rem;
-      color: #d0d0d0;
-      margin-bottom: 2.5rem;
-      max-width: 500px;
-      animation: slideInLeft 0.8s ease 0.3s both;
-      line-height: 1.8;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 1.5rem;
-      animation: slideInLeft 0.8s ease 0.4s both;
-    }
-
-    .btn {
-      padding: 1rem 2.5rem;
-      border-radius: 50px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.9rem;
-    }
-
-    .btn-primary {
-      background: var(--secondary);
-      color: var(--primary);
-      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(212, 165, 116, 0.4);
-      background: #e5b88a;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--secondary);
-      border: 2px solid var(--secondary);
-    }
-
-    .btn-secondary:hover {
-      background: var(--secondary);
-      color: var(--primary);
-    }
-
-    .hero-image {
-      position: relative;
-      height: 500px;
-      animation: slideInRight 0.8s ease 0.3s both;
-    }
-
-    .hero-image-placeholder {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 1rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-
-    .hero-image-placeholder::before {
-      content: '✂️';
-      font-size: 6rem;
-      opacity: 0.3;
-    }
-
-    @media (max-width: 1024px) {
-      .hero-container { grid-template-columns: 1fr; }
-      .hero-text h1 { font-size: 3rem; }
-      .hero { min-height: auto; padding: 2rem; }
-    }
-
-    @media (max-width: 768px) {
-      .hero { margin-top: 60px; min-height: 70vh; padding: 2rem 1rem; }
-      .hero-text h1 { font-size: 2.2rem; margin-bottom: 1rem; }
-      .hero-text .subtitle { font-size: 1rem; margin-bottom: 1rem; }
-      .hero-text p { font-size: 0.95rem; margin-bottom: 1.5rem; }
-      .hero-cta { flex-direction: column; gap: 1rem; }
-      .hero-cta .btn { width: 100%; padding: 0.9rem 1.5rem; }
-      .hero-image { height: 300px; }
-    }
-
-    @media (max-width: 480px) {
-      .hero { margin-top: 55px; min-height: 100vh; padding: 1.5rem 1rem; }
-      .hero-text h1 { font-size: 1.8rem; line-height: 1.1; margin-bottom: 0.8rem; }
-      .hero-text .subtitle { font-size: 0.85rem; margin-bottom: 0.8rem; }
-      .hero-text p { font-size: 0.9rem; margin-bottom: 1.2rem; }
-      .btn { padding: 0.8rem 1.5rem; font-size: 0.8rem; }
-      .hero-image { height: 250px; }
-    }
-
-    /* ===== SERVICIOS ===== */
-    .servicios {
-      padding: 6rem 3rem;
-      background: var(--light);
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .section-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 1rem;
-      letter-spacing: -1px;
-    }
-
-    .section-header p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .servicios-grid {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2.5rem;
-    }
-
-    .servicio-card {
-      background: #fff;
-      padding: 2.5rem;
-      border-radius: 12px;
-      border-left: 4px solid var(--secondary);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: fadeInUp 0.8s ease both;
-    }
-
-    .servicio-card:nth-child(1) { animation-delay: 0.1s; }
-    .servicio-card:nth-child(2) { animation-delay: 0.2s; }
-    .servicio-card:nth-child(3) { animation-delay: 0.3s; }
-    .servicio-card:nth-child(4) { animation-delay: 0.4s; }
-
-    .servicio-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    .servicio-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .servicio-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: var(--primary);
-      margin-bottom: 0.8rem;
-      font-weight: 700;
-    }
-
-    .servicio-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 768px) {
-      .servicios { padding: 3rem 1.5rem; }
-      .section-header h2 { font-size: 1.8rem; margin-bottom: 0.8rem; }
-      .section-header p { font-size: 0.95rem; }
-      .servicios-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-      .servicio-card { padding: 1.5rem; }
-    }
-
-    @media (max-width: 480px) {
-      .servicios { padding: 2rem 1rem; }
-      .section-header h2 { font-size: 1.4rem; margin-bottom: 0.6rem; }
-      .section-header p { font-size: 0.9rem; }
-      .servicio-card { padding: 1rem; }
-      .servicio-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-      .servicio-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-      .servicio-card p { font-size: 0.85rem; }
-    }
-
-    /* ===== PELUQUEROS ===== */
-    .peluqueros {
-      padding: 6rem 3rem;
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .peluqueros .section-header {
-      color: #fff;
-    }
-
-    .peluqueros .section-header h2 {
-      color: #fff;
-    }
-
-    .peluqueros .section-header p {
-      color: #ccc;
-    }
-
-    .peluqueros-grid {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2.5rem;
-    }
-
-    .peluquero-card {
-      background: rgba(212, 165, 116, 0.1);
-      border: 1px solid rgba(212, 165, 116, 0.2);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      animation: fadeInUp 0.8s ease both;
-    }
-
-    .peluquero-card:nth-child(1) { animation-delay: 0.1s; }
-    .peluquero-card:nth-child(2) { animation-delay: 0.2s; }
-    .peluquero-card:nth-child(3) { animation-delay: 0.3s; }
-    .peluquero-card:nth-child(4) { animation-delay: 0.4s; }
-
-    .peluquero-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--secondary);
-      background: rgba(212, 165, 116, 0.15);
-      box-shadow: 0 15px 40px rgba(212, 165, 116, 0.2);
-    }
-
-    .peluquero-image {
-      width: 100%;
-      height: 320px;
-      background: linear-gradient(135deg, #8b6f47 0%, #5a4a3a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    .peluquero-info {
-      padding: 2rem;
-    }
-
-    .peluquero-nombre {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    .peluquero-especialidad {
-      color: #aaa;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 1rem;
-    }
-
-    .peluquero-experiencia {
-      color: #ccc;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .peluquero-anos {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--secondary);
-    }
-
-    .peluquero-anos-label {
-      color: #aaa;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    @media (max-width: 768px) {
-      .peluqueros { padding: 3rem 1.5rem; }
-      .peluquero-image { height: 250px; }
-      .peluquero-info { padding: 1.5rem; }
-      .peluquero-nombre { font-size: 1.2rem; }
-      .peluqueros-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    }
-
-    @media (max-width: 480px) {
-      .peluqueros { padding: 2rem 1rem; }
-      .peluquero-image { height: 200px; }
-      .peluquero-info { padding: 1rem; }
-      .peluquero-nombre { font-size: 1.1rem; }
-      .peluquero-anos { font-size: 1.3rem; }
-    }
-
-    /* ===== RESERVAS ===== */
-    .reservas {
-      padding: 6rem 3rem;
-      background: var(--light);
-    }
-
-    .reservas-inner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .reservas-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .reservas-header h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-
-    .reservas-header p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* ===== STEPS INDICATOR ===== */
-    .steps-indicator {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-
-    .steps-indicator::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: #ddd;
-      z-index: 0;
-    }
-
-    .step-item {
-      flex: 1;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-number {
-      width: 50px;
-      height: 50px;
-      background: #ddd;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 0.8rem;
-      font-weight: 600;
-      color: var(--primary);
-      transition: all 0.3s ease;
-    }
-
-    .step-item.active .step-number {
-      background: var(--secondary);
-      color: var(--primary);
-      transform: scale(1.15);
-      box-shadow: 0 5px 20px rgba(212, 165, 116, 0.3);
-    }
-
-    .step-item.completed .step-number {
-      background: var(--secondary);
-      color: var(--primary);
-    }
-
-    .step-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-    }
-
-    .step-item.active .step-label {
-      color: var(--secondary);
-    }
-
-    /* ===== FORM STEPS ===== */
-    .form-step {
-      display: none;
-      animation: fadeInUp 0.4s ease;
-    }
-
-    .form-step.active {
-      display: block;
-    }
-
-    .reservas-form {
-      background: #fff;
-      padding: 3rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    .form-step-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    /* ===== BARBERO GRID ===== */
-    .barberos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .barbero-option {
-      padding: 1.5rem;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      background: #f9f9f9;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    .barbero-option:hover {
-      border-color: var(--secondary);
-      background: rgba(212, 165, 116, 0.05);
-    }
-
-    .barbero-option.selected {
-      border-color: var(--secondary);
-      background: rgba(212, 165, 116, 0.1);
-    }
-
-    .barbero-emoji {
-      font-size: 2.5rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .barbero-nombre {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.3rem;
-    }
-
-    .barbero-especialidad {
-      font-size: 0.8rem;
-      color: var(--secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    @media (max-width: 768px) {
-      .barberos-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-      .barbero-option { padding: 1rem; }
-      .barbero-emoji { font-size: 2rem; margin-bottom: 0.5rem; }
-      .barbero-nombre { font-size: 0.95rem; }
-      .barbero-especialidad { font-size: 0.75rem; }
-    }
-
-    @media (max-width: 480px) {
-      .barberos-grid { grid-template-columns: 1fr; gap: 0.8rem; }
-      .barbero-option { padding: 0.8rem; }
-      .barbero-emoji { font-size: 1.8rem; margin-bottom: 0.3rem; }
-      .barbero-nombre { font-size: 0.9rem; }
-      .barbero-especialidad { font-size: 0.7rem; }
-    }
-
-    /* ===== FORM GROUP ===== */
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.7rem;
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-family: 'Lora', serif;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      color: var(--primary);
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: #999;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--secondary);
-      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
-      background: rgba(212, 165, 116, 0.02);
-    }
-
-    @media (max-width: 768px) {
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        padding: 0.9rem 0.8rem;
-        font-size: 16px;
-        min-height: 44px;
-      }
-      .form-group label { font-size: 0.9rem; margin-bottom: 0.5rem; }
-      .form-group { margin-bottom: 1rem; }
-    }
-
-    @media (max-width: 480px) {
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        padding: 0.85rem 0.05rem;
-        font-size: 16px;
-        min-height: 44px;
-      }
-      .form-group label { font-size: 0.85rem; margin-bottom: 0.4rem; }
-      .form-group { margin-bottom: 1rem; }
-    }
-
-    /* ===== HORARIOS GRID ===== */
-    .horarios-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .horario-btn {
-      padding: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      background: #f9f9f9;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-
-    .horario-btn:hover:not(:disabled) {
-      border-color: var(--secondary);
-      background: rgba(212, 165, 116, 0.05);
-    }
-
-    .horario-btn.selected {
-      background: var(--secondary);
-      color: var(--primary);
-      border-color: var(--secondary);
-    }
-
-    .horario-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      text-decoration: line-through;
-    }
-
-    @media (max-width: 768px) {
-      .horarios-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
-      .horario-btn { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
-    }
-
-    @media (max-width: 480px) {
-      .horarios-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
-      .horario-btn { padding: 0.7rem 0.4rem; font-size: 0.8rem; }
-    }
-
-    /* ===== RESUMEN ===== */
-    .resumen-box {
-      background: rgba(212, 165, 116, 0.08);
-      border: 1px solid rgba(212, 165, 116, 0.3);
-      border-radius: 12px;
-      padding: 2rem;
-      margin: 2rem 0;
-    }
-
-    .resumen-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-
-    .resumen-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.8rem 0;
-      border-bottom: 1px solid rgba(212, 165, 116, 0.2);
-      font-size: 0.95rem;
-    }
-
-    .resumen-item:last-child {
-      border-bottom: none;
-    }
-
-    .resumen-label {
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .resumen-valor {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    @media (max-width: 768px) {
-      .resumen-box { padding: 1.5rem; margin: 1.5rem 0; }
-      .resumen-title { font-size: 1.1rem; }
-      .resumen-item { font-size: 0.9rem; padding: 0.6rem 0; }
-    }
-
-    @media (max-width: 480px) {
-      .resumen-box { padding: 1rem; margin: 1rem 0; }
-      .resumen-title { font-size: 1rem; margin-bottom: 0.8rem; }
-      .resumen-item { font-size: 0.85rem; padding: 0.5rem 0; }
-    }
-
-    /* ===== BOTONES ===== */
-    .form-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-
-    .btn-back {
-      padding: 0.8rem 2rem;
-      background: transparent;
-      color: var(--secondary);
-      border: 2px solid var(--secondary);
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.9rem;
-    }
-
-    .btn-back:hover {
-      background: var(--secondary);
-      color: var(--primary);
-    }
-
-    .form-btn {
-      width: 100%;
-      padding: 1rem;
-      background: var(--secondary);
-      color: var(--primary);
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .form-btn:hover {
-      background: #e5b88a;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.2);
-    }
-
-    .form-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    @media (max-width: 768px) {
-      .form-buttons { flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
-      .btn-back { width: 100%; padding: 0.8rem 1rem; font-size: 0.8rem; }
-    }
-
-    @media (max-width: 480px) {
-      .form-buttons { flex-direction: column; gap: 1rem; margin-top: 1rem; }
-      .form-btn { padding: 0.85rem; font-size: 0.85rem; }
-      .btn-back { padding: 0.65rem 1rem; font-size: 0.75rem; }
-    }
-
-    /* ===== CONFIRMATION ===== */
-    .confirmation-box {
-      background: #fff;
-      padding: 3rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    .confirmation-icon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-      animation: scaleIn 0.5s ease;
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
-    }
-
-    .confirmation-box h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-
-    .confirmation-box p {
-      color: var(--muted);
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .confirmation-box { padding: 1.5rem; }
-      .confirmation-icon { font-size: 3rem; }
-      .confirmation-box h2 { font-size: 1.4rem; }
-      .confirmation-box p { font-size: 0.9rem; }
-    }
-
-    /* ===== LOADING ===== */
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(212, 165, 116, 0.2);
-      border-top: 4px solid var(--secondary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* ===== NOTIFICATION ===== */
-    .notification {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      padding: 1.2rem 2rem;
-      background: var(--secondary);
-      color: var(--primary);
-      border-radius: 8px;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.3);
-      animation: slideInToast 0.4s ease;
-      z-index: 5000;
-      display: none;
-    }
-
-    .notification.show {
-      display: block;
-    }
-
-    .notification.error {
-      background: #e74c3c;
-      color: white;
-    }
-
-    @keyframes slideInToast {
-      from {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ===== REVIEWS ===== */
-    .reviews {
-      padding: 6rem 3rem;
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .reviews .section-header {
-      color: #fff;
-    }
-
-    .reviews .section-header h2 {
-      color: #fff;
-    }
-
-    .reviews .section-header p {
-      color: #ccc;
-    }
-
-    .reviews-grid {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2.5rem;
-    }
-
-    .review-card {
-      background: rgba(212, 165, 116, 0.1);
-      border: 1px solid rgba(212, 165, 116, 0.2);
-      padding: 2.5rem;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      animation: fadeInUp 0.8s ease both;
-    }
-
-    .review-card:nth-child(1) { animation-delay: 0.1s; }
-    .review-card:nth-child(2) { animation-delay: 0.2s; }
-    .review-card:nth-child(3) { animation-delay: 0.3s; }
-
-    .review-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--secondary);
-      background: rgba(212, 165, 116, 0.15);
-    }
-
-    .stars {
-      color: var(--secondary);
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      letter-spacing: 2px;
-    }
-
-    .review-text {
-      color: #d0d0d0;
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
-      font-style: italic;
-    }
-
-    .review-author {
-      color: var(--secondary);
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 768px) {
-      .reviews { padding: 3rem 1.5rem; }
-      .reviews-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    }
-
-    @media (max-width: 480px) {
-      .reviews { padding: 2rem 1rem; }
-    }
-
-    /* ===== LOCALIZACION ===== */
-    .localizacion {
-      padding: 6rem 3rem;
-      background: var(--light);
-    }
-
-    .localizacion-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .localizacion-mapa {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      height: 450px;
-    }
-
-    .mapa-placeholder {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 3rem;
-    }
-
-    .localizacion-info h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-    }
-
-    .info-item {
-      margin-bottom: 2rem;
-    }
-
-    .info-label {
-      color: var(--secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .info-value {
-      color: var(--text);
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .info-value a {
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .info-value a:hover {
-      color: var(--secondary);
-    }
-
-    .mapa-btn {
-      display: inline-block;
-      padding: 0.85rem 2rem;
-      background: var(--secondary);
-      color: var(--primary);
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.85rem;
-      margin-top: 1rem;
-    }
-
-    .mapa-btn:hover {
-      background: #e5b88a;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(212, 165, 116, 0.2);
-    }
-
-    @media (max-width: 1024px) {
-      .localizacion-container { grid-template-columns: 1fr; }
-      .localizacion-mapa { height: 350px; }
-    }
-
-    @media (max-width: 768px) {
-      .localizacion { padding: 3rem 1.5rem; }
-      .localizacion-mapa { height: 300px; margin-bottom: 1.5rem; }
-      .localizacion-info h3 { font-size: 1.8rem; }
-      .info-item { margin-bottom: 1.5rem; }
-    }
-
-    @media (max-width: 480px) {
-      .localizacion { padding: 2rem 1rem; }
-      .localizacion-mapa { height: 250px; margin-bottom: 1rem; }
-      .mapa-placeholder { font-size: 2.5rem; }
-      .localizacion-info h3 { font-size: 1.5rem; }
-      .info-item { margin-bottom: 1rem; }
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
-      background: var(--primary);
-      color: #fff;
-      padding: 4rem 3rem 2rem;
-      border-top: 1px solid rgba(212, 165, 116, 0.2);
-    }
-
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid rgba(212, 165, 116, 0.2);
-    }
-
-    .footer-section h4 {
-      font-family: 'Playfair Display', serif;
-      color: var(--secondary);
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    .footer-section a {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 0.9rem;
-      display: block;
-      margin-bottom: 0.7rem;
-      transition: color 0.3s ease;
-    }
-
-    .footer-section a:hover {
-      color: var(--secondary);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      color: #999;
-      font-size: 0.85rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 768px) {
-      footer { padding: 2rem 1.5rem 1rem; }
-      .footer-content { gap: 1.5rem; margin-bottom: 1rem; }
-      .footer-section h4 { font-size: 1rem; }
-      .footer-section a { font-size: 0.85rem; }
-    }
-
-    @media (max-width: 480px) {
-      footer { padding: 1.5rem 1rem 0.8rem; }
-      .footer-content { gap: 1rem; margin-bottom: 0.8rem; }
-      .footer-section h4 { font-size: 0.95rem; margin-bottom: 0.6rem; }
-      .footer-section a { font-size: 0.8rem; margin-bottom: 0.4rem; }
-    }
-
-    /* ===== ANIMACIONES ===== */
-    @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .reservas { padding: 3rem 1.5rem; }
-      .reservas-header h3 { font-size: 1.8rem; margin-bottom: 0.8rem; }
-      .reservas-header p { font-size: 0.95rem; }
-      .reservas-form { padding: 1.5rem; }
-      .form-step-title { font-size: 1.4rem; margin-bottom: 1.5rem; }
-      .steps-indicator { display: none; }
-    }
-
-    @media (max-width: 480px) {
-      .reservas { padding: 2rem 1rem; }
-      .reservas-header h3 { font-size: 1.5rem; margin-bottom: 0.6rem; }
-      .reservas-header p { font-size: 0.9rem; }
-      .reservas-form { padding: 1rem; }
-      .form-step-title { font-size: 1.2rem; margin-bottom: 1rem; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ============================================ -->
+  <!-- TOAST -->
+  <!-- ============================================ -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ============================================ -->
   <!-- NAVBAR -->
-  <nav role="navigation" aria-label="Navegación principal">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">ELEGANCIA</a>
-      <ul class="nav-links">
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#peluqueros">Equipo</a></li>
-        <li><a href="#reservas">Reservar</a></li>
-        <li><a href="#reviews">Reviews</a></li>
-        <li><a href="#localizacion">Localización</a></li>
-      </ul>
-      <div class="nav-buttons">
-        <a href="#reservas" class="nav-btn">Reservar Cita</a>
+  <!-- ============================================ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+      <a href="#" class="font-display text-xl tracking-wide text-gold-500">ELEGANCIA</a>
+      <div class="flex items-center gap-6">
+        <div id="navMenu" class="nav-menu">
+          <a href="#servicios" class="text-sm text-gray-300 hover:text-gold-500 transition-colors">Servicios</a>
+          <a href="#equipo" class="text-sm text-gray-300 hover:text-gold-500 transition-colors">Equipo</a>
+          <a href="#reservas" class="text-sm text-gray-300 hover:text-gold-500 transition-colors">Reservar</a>
+          <a href="#localizacion" class="text-sm text-gray-300 hover:text-gold-500 transition-colors">Contacto</a>
+        </div>
+        <a href="#reservas" class="hidden sm:inline-flex btn-primary text-sm py-2 px-5">Reservar Cita</a>
+        <button id="menuToggle" class="sm:hidden text-gold-500 p-2" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
-  <section class="hero" aria-label="Sección principal">
-    <div class="hero-container">
-      <div class="hero-text">
-        <div class="subtitle">Bienvenido a</div>
-        <h1>Salón Elegancia</h1>
-        <p>Transforma tu estilo con nuestro equipo de profesionales expertos. Cada corte es una obra de arte diseñada especialmente para ti.</p>
-        <div class="hero-cta">
-          <a href="#reservas" class="btn btn-primary">Reservar Ahora</a>
-          <a href="#peluqueros" class="btn btn-secondary">Conocer al Equipo</a>
-        </div>
-      </div>
-      <div class="hero-image">
-        <div class="hero-image-placeholder"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICIOS -->
-  <section id="servicios" class="servicios" aria-label="Nuestros servicios">
-    <div class="section-header">
-      <h2>Nuestros Servicios</h2>
-      <p>Ofrecemos una amplia gama de servicios de peluquería y cuidado capilar con los mejores productos premium</p>
-    </div>
-    <div class="servicios-grid">
-      <div class="servicio-card">
-        <div class="servicio-icon">✂️</div>
-        <h3>Cortes Clásicos</h3>
-        <p>Cortes precisos y modernos diseñados para realzar tus facciones. Nuestros profesionales se especializan en técnicas tradicionales y contemporáneas.</p>
-      </div>
-      <div class="servicio-card">
-        <div class="servicio-icon">💇</div>
-        <h3>Coloración Permanente</h3>
-        <p>Transformamos el color de tu cabello con tinturas profesionales de alta calidad. Desde colores naturales hasta looks atrevidos.</p>
-      </div>
-      <div class="servicio-card">
-        <div class="servicio-icon">🌊</div>
-        <h3>Tratamientos Capilares</h3>
-        <p>Nutritivos y reparadores que devuelven vida a tu cabello. Ideal para cabellos dañados, secos o debilitados.</p>
-      </div>
-      <div class="servicio-card">
-        <div class="servicio-icon">✨</div>
-        <h3>Peinados Especiales</h3>
-        <p>Creaciones personalizadas para bodas, eventos y ocasiones especiales. Nuestro equipo crea diseños únicos y memorables.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PELUQUEROS -->
-  <section id="peluqueros" class="peluqueros" aria-label="Nuestro equipo">
-    <div class="section-header">
-      <h2>Nuestro Equipo</h2>
-      <p>Conoce a los expertos detrás de cada transformación capilar</p>
-    </div>
-    <div class="peluqueros-grid">
-      <div class="peluquero-card">
-        <div class="peluquero-image">💇‍♂️</div>
-        <div class="peluquero-info">
-          <div class="peluquero-nombre">Carlos</div>
-          <div class="peluquero-especialidad">Maestro Barbero</div>
-          <p class="peluquero-experiencia">Experto en barbería de precisión y diseño de barba. Entrenado en técnicas clásicas y modernas. Referencia en la ciudad por sus cortes impecables.</p>
-          <div class="peluquero-anos">10+</div>
-          <div class="peluquero-anos-label">Años de Experiencia</div>
-        </div>
-      </div>
-
-      <div class="peluquero-card">
-        <div class="peluquero-image">💈</div>
-        <div class="peluquero-info">
-          <div class="peluquero-nombre">Miguel</div>
-          <div class="peluquero-especialidad">Especialista en Cortes</div>
-          <p class="peluquero-experiencia">Especializado en técnicas de corte moderno y diseño personalizado. Siempre atento a las últimas tendencias internacionales de la barbería.</p>
-          <div class="peluquero-anos">8+</div>
-          <div class="peluquero-anos-label">Años de Experiencia</div>
-        </div>
-      </div>
-
-      <div class="peluquero-card">
-        <div class="peluquero-image">✂️</div>
-        <div class="peluquero-info">
-          <div class="peluquero-nombre">Juan</div>
-          <div class="peluquero-especialidad">Experto en Estilismo</div>
-          <p class="peluquero-experiencia">Especialista en diseño de imagen y asesoramiento de estilo. Capaz de crear looks únicos adaptados a cada tipo de rostro y personalidad.</p>
-          <div class="peluquero-anos">12+</div>
-          <div class="peluquero-anos-label">Años de Experiencia</div>
-        </div>
-      </div>
-
-      <div class="peluquero-card">
-        <div class="peluquero-image">👨‍🦰</div>
-        <div class="peluquero-info">
-          <div class="peluquero-nombre">Antonio</div>
-          <div class="peluquero-especialidad">Tratamientos Especiales</div>
-          <p class="peluquero-experiencia">Especialista en cuidado capilar y tratamientos reconstructivos. Experto en queratina, botox capilar y nutrición profunda del cabello.</p>
-          <div class="peluquero-anos">9+</div>
-          <div class="peluquero-anos-label">Años de Experiencia</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESERVAS -->
-  <section id="reservas" class="reservas" aria-label="Sistema de reservas">
-    <div class="reservas-inner">
-      <!-- HEADER -->
-      <div class="reservas-header">
-        <h3>Reserva tu Cita</h3>
-        <p>Selecciona tu barbero, elige fecha y hora. Te pediremos tus datos al final para confirmar tu reserva.</p>
-      </div>
-
-      <!-- STEPS INDICATOR -->
-      <div class="steps-indicator">
-        <div class="step-item active" id="step-1-indicator">
-          <div class="step-number">1</div>
-          <div class="step-label">Barbero</div>
-        </div>
-        <div class="step-item" id="step-2-indicator">
-          <div class="step-number">2</div>
-          <div class="step-label">Fecha</div>
-        </div>
-        <div class="step-item" id="step-3-indicator">
-          <div class="step-number">3</div>
-          <div class="step-label">Hora</div>
-        </div>
-        <div class="step-item" id="step-4-indicator">
-          <div class="step-number">4</div>
-          <div class="step-label">Datos</div>
-        </div>
-      </div>
-
-      <!-- FORM -->
-      <form class="reservas-form" id="reservas-form">
-        <!-- STEP 1: BARBERO -->
-        <div class="form-step active" id="step-1">
-          <h2 class="form-step-title">Elige tu Barbero</h2>
-          <div class="barberos-grid">
-            <div class="barbero-option" onclick="selectBarbero('Carlos', this)">
-              <div class="barbero-emoji">💇‍♂️</div>
-              <div class="barbero-nombre">Carlos</div>
-              <div class="barbero-especialidad">Maestro Barbero</div>
-            </div>
-            <div class="barbero-option" onclick="selectBarbero('Miguel', this)">
-              <div class="barbero-emoji">💈</div>
-              <div class="barbero-nombre">Miguel</div>
-              <div class="barbero-especialidad">Especialista</div>
-            </div>
-            <div class="barbero-option" onclick="selectBarbero('Juan', this)">
-              <div class="barbero-emoji">✂️</div>
-              <div class="barbero-nombre">Juan</div>
-              <div class="barbero-especialidad">Experto</div>
-            </div>
-            <div class="barbero-option" onclick="selectBarbero('Antonio', this)">
-              <div class="barbero-emoji">👨‍🦰</div>
-              <div class="barbero-nombre">Antonio</div>
-              <div class="barbero-especialidad">Profesional</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 2: FECHA -->
-        <div class="form-step" id="step-2">
-          <h2 class="form-step-title">Elige la Fecha</h2>
-          <div class="form-group">
-            <label for="fecha">Selecciona un día</label>
-            <input type="date" id="fecha" required>
-          </div>
-          <button type="button" class="form-btn" onclick="confirmarFecha()" style="margin-top: 1rem;">Confirmar Fecha</button>
-        </div>
-
-        <!-- STEP 3: HORA -->
-        <div class="form-step" id="step-3">
-          <h2 class="form-step-title">Elige la Hora</h2>
-          <div id="loading-horarios" class="loading" style="display: none;">
-            <div class="spinner"></div>
-          </div>
-          <div class="horarios-grid" id="horarios-grid"></div>
-        </div>
-
-        <!-- STEP 4: DATOS -->
-        <div class="form-step" id="step-4">
-          <h2 class="form-step-title">Tus Datos</h2>
-          
-          <div class="form-group">
-            <label for="nombre">Nombre Completo</label>
-            <input type="text" id="nombre" placeholder="Tu nombre completo" required>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Correo Electrónico</label>
-            <input type="email" id="email" placeholder="tu@email.com" required>
-          </div>
-
-          <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" placeholder="+34 XXX XXX XXX" required>
-          </div>
-
-          <div class="form-group">
-            <label for="servicio">Servicio</label>
-            <select id="servicio" required>
-              <option value="">Selecciona un servicio</option>
-              <option value="corte">Corte Clásico</option>
-              <option value="coloracion">Coloración</option>
-              <option value="tratamiento">Tratamiento Capilar</option>
-              <option value="peinado">Peinado Especial</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="notas">Notas Adicionales (opcional)</label>
-            <textarea id="notas" placeholder="Cuéntanos tus preferencias..." rows="2"></textarea>
-          </div>
-
-          <!-- RESUMEN -->
-          <div class="resumen-box">
-            <div class="resumen-title">Resumen de tu Reserva</div>
-            <div class="resumen-item">
-              <span class="resumen-label">Barbero:</span>
-              <span class="resumen-valor" id="resumen-barbero">—</span>
-            </div>
-            <div class="resumen-item">
-              <span class="resumen-label">Fecha:</span>
-              <span class="resumen-valor" id="resumen-fecha">—</span>
-            </div>
-            <div class="resumen-item">
-              <span class="resumen-label">Hora:</span>
-              <span class="resumen-valor" id="resumen-hora">—</span>
-            </div>
-          </div>
-
-          <div class="form-buttons">
-            <button type="button" class="btn-back" onclick="prevStep(3)">← Atrás</button>
-            <button type="submit" class="form-btn" style="flex: 1;">Confirmar Reserva</button>
-          </div>
-        </div>
-
-        <!-- CONFIRMATION -->
-        <div class="form-step" id="step-confirmation">
-          <div class="confirmation-box">
-            <div class="confirmation-icon">✓</div>
-            <h2>¡Reserva Confirmada!</h2>
-            <p>Tu cita ha sido reservada exitosamente.</p>
-            <p>Hemos enviado un email de confirmación a <strong id="conf-email"></strong></p>
-            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted);">Barbero: <strong id="conf-barbero"></strong> | Fecha: <strong id="conf-fecha"></strong> | Hora: <strong id="conf-hora"></strong></p>
-            <button type="button" class="btn btn-primary" onclick="resetForm()" style="margin-top: 2rem;">Hacer otra reserva</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- REVIEWS -->
-  <section id="reviews" class="reviews" aria-label="Opiniones de clientes">
-    <div class="section-header">
-      <h2>Lo Que Dicen Nuestros Clientes</h2>
-      <p>Opiniones de clientes satisfechos con nuestros servicios</p>
-    </div>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-text">"Increíble experiencia. Carlos me hizo un corte espectacular que llevo soñando hace años. ¡Volveré sin dudarlo!"</p>
-        <p class="review-author">— Roberto García</p>
-      </div>
-
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-text">"Miguel es un maestro de su oficio. El corte perfecto, la barbería impecable. El mejor barbero de la ciudad sin duda."</p>
-        <p class="review-author">— David Pérez</p>
-      </div>
-
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-text">"Juan me asesoró perfectamente sobre qué corte me favorecía. Ahora me siento mucho mejor conmigo mismo. ¡Muy recomendado!"</p>
-        <p class="review-author">— Miguel Sánchez</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOCALIZACION -->
-  <section id="localizacion" class="localizacion" aria-label="Ubicación y contacto">
-    <div class="localizacion-container">
-      <div class="localizacion-mapa">
-        <div class="mapa-placeholder">📍</div>
-      </div>
-
-      <div class="localizacion-info">
-        <h3>Encuéntranos</h3>
-
-        <div class="info-item">
-          <div class="info-label">Dirección</div>
-          <p class="info-value">Calle Principal, 123<br>Madrid, España</p>
-        </div>
-
-        <div class="info-item">
-          <div class="info-label">Teléfono</div>
-          <p class="info-value"><a href="tel:+34912345678">+34 91 234 5678</a></p>
-        </div>
-
-        <div class="info-item">
-          <div class="info-label">Email</div>
-          <p class="info-value"><a href="mailto:info@salonelegancia.es">info@salonelegancia.es</a></p>
-        </div>
-
-        <div class="info-item">
-          <div class="info-label">Horario</div>
-          <p class="info-value">
-            Lunes a Viernes: 09:00 - 19:00<br>
-            Sábados: 10:00 - 18:00<br>
-            Domingos: Cerrado
-          </p>
-        </div>
-
-        <a href="https://www.google.com/maps/search/Madrid/" target="_blank" class="mapa-btn">
-          Ver en Google Maps
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer role="contentinfo">
-    <div class="footer-content">
-      <section class="footer-section">
-        <h4>Salón</h4>
-        <a href="#servicios">Servicios</a>
-        <a href="#peluqueros">Equipo</a>
-        <a href="#reservas">Reservar</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#localizacion">Ubicación</a>
-      </section>
-      <section class="footer-section">
-        <h4>Información</h4>
-        <a href="#">Sobre Nosotros</a>
-        <a href="#">Políticas</a>
-        <a href="#">Términos</a>
-        <a href="#">Privacidad</a>
-      </section>
-      <section class="footer-section">
-        <h4>Contacto</h4>
-        <a href="tel:+34912345678">+34 91 234 5678</a>
-        <a href="mailto:info@salonelegancia.es">info@salonelegancia.es</a>
-        <a href="#">Instagram</a>
-        <a href="#">Facebook</a>
-      </section>
-      <section class="footer-section">
-        <h4>Horario</h4>
-        <p style="color: #ccc; font-size: 0.9rem;">
-          L-V: 09:00 - 19:00<br>
-          S: 10:00 - 18:00<br>
-          D: Cerrado
+  <!-- ============================================ -->
+  <!-- HERO -->
+  <!-- ============================================ -->
+  <section class="min-h-screen flex items-center relative overflow-hidden pt-16">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(196,149,106,0.06),transparent_60%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(196,149,106,0.04),transparent_50%)]"></div>
+    <div class="max-w-6xl mx-auto px-5 w-full py-20 md:py-32">
+      <div class="max-w-3xl">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500/70 mb-6 font-medium">Madrid · Desde 2014</p>
+        <h1 class="font-display text-[clamp(3rem,10vw,7rem)] font-light leading-[1.05] tracking-[-0.04em] text-white">
+          Salón<br>
+          <span class="italic font-normal text-gold-500">Elegancia</span>
+        </h1>
+        <div class="hero-divider-large"></div>
+        <p class="text-lg md:text-xl text-gray-400 max-w-xl leading-relaxed">
+          Transforma tu estilo con nuestro equipo de profesionales. Cada corte es una obra de arte diseñada para ti.
         </p>
-      </section>
+        <div class="flex flex-col sm:flex-row gap-3 mt-10">
+          <a href="#reservas" class="btn-primary">Reservar Ahora</a>
+          <a href="#equipo" class="btn-secondary">Conocer al Equipo</a>
+        </div>
+      </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2024 Salón Elegancia. Todos los derechos reservados. | Diseñado con elegancia</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- SERVICIOS -->
+  <!-- ============================================ -->
+  <section id="servicios" class="py-24 md:py-32">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="mb-16">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500/70 mb-4 font-medium">Servicios</p>
+        <h2 class="section-title text-white">Hechos a medida</h2>
+        <div class="hero-divider"></div>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+        <div class="service-card bg-dark-800 p-8 md:p-10">
+          <div class="w-10 h-10 text-gold-500 mb-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="8.5" y1="8.5" x2="18" y2="18"/><line x1="8.5" y1="15.5" x2="17" y2="6"/></svg>
+          </div>
+          <h3 class="font-display text-xl text-white mb-3">Cortes Clásicos</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Cortes precisos con técnicas tradicionales y contemporáneas. Precisión y estilo en cada pasada.</p>
+        </div>
+        <div class="service-card bg-dark-800 p-8 md:p-10">
+          <div class="w-10 h-10 text-gold-500 mb-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 9c1.5 0 3 1 3 3s-1.5 3-3 3"/><path d="M5 6l3 3"/><path d="M19 6l-3 3"/><path d="M5 18l3-3"/><path d="M19 18l-3-3"/></svg>
+          </div>
+          <h3 class="font-display text-xl text-white mb-3">Coloración</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Tinturas profesionales de alta calidad. Desde tonos naturales hasta acabados atrevidos y modernos.</p>
+        </div>
+        <div class="service-card bg-dark-800 p-8 md:p-10">
+          <div class="w-10 h-10 text-gold-500 mb-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h12a3 3 0 010 6H5"/><path d="M17 9l4-1v6l-4-1"/><path d="M9 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7"/></svg>
+          </div>
+          <h3 class="font-display text-xl text-white mb-3">Tratamientos</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Nutrición y reparación capilar profunda. Queratina, botox capilar y revitalización completa.</p>
+        </div>
+        <div class="service-card bg-dark-800 p-8 md:p-10">
+          <div class="w-10 h-10 text-gold-500 mb-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12c0-2 2-4 4-4s4 2 4 4c0-2 2-4 4-4s4 2 4 4"/><path d="M4 12c0 2 8 4 8 4s8-2 8-4"/></svg>
+          </div>
+          <h3 class="font-display text-xl text-white mb-3">Peinados</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">Creaciones personalizadas para bodas, eventos y ocasiones especiales. Diseños únicos y memorables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- EQUIPO -->
+  <!-- ============================================ -->
+  <section id="equipo" class="py-24 md:py-32 bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="mb-16">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500/70 mb-4 font-medium">Equipo</p>
+        <h2 class="section-title text-white">Profesionales</h2>
+        <div class="hero-divider"></div>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="team-card bg-dark-700 rounded-xl p-6 text-center border border-white/5">
+          <div class="w-20 h-20 rounded-full bg-gold-500/10 mx-auto mb-5 flex items-center justify-center">
+            <span class="font-display text-2xl text-gold-500">C</span>
+          </div>
+          <h3 class="font-display text-xl text-white mb-1">Carlos</h3>
+          <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-3">Maestro Barbero</p>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">Especialista en barbería de precisión y diseño de barba. Referencia en la ciudad.</p>
+          <span class="text-xs text-gold-500/50">14+ años</span>
+        </div>
+        <div class="team-card bg-dark-700 rounded-xl p-6 text-center border border-white/5">
+          <div class="w-20 h-20 rounded-full bg-gold-500/10 mx-auto mb-5 flex items-center justify-center">
+            <span class="font-display text-2xl text-gold-500">M</span>
+          </div>
+          <h3 class="font-display text-xl text-white mb-1">Miguel</h3>
+          <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-3">Especialista en Cortes</p>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">Técnicas de corte moderno y diseño personalizado. Últimas tendencias internacionales.</p>
+          <span class="text-xs text-gold-500/50">10+ años</span>
+        </div>
+        <div class="team-card bg-dark-700 rounded-xl p-6 text-center border border-white/5">
+          <div class="w-20 h-20 rounded-full bg-gold-500/10 mx-auto mb-5 flex items-center justify-center">
+            <span class="font-display text-2xl text-gold-500">J</span>
+          </div>
+          <h3 class="font-display text-xl text-white mb-1">Juan</h3>
+          <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-3">Experto en Estilismo</p>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">Diseño de imagen y asesoramiento de estilo. Looks únicos para cada personalidad.</p>
+          <span class="text-xs text-gold-500/50">12+ años</span>
+        </div>
+        <div class="team-card bg-dark-700 rounded-xl p-6 text-center border border-white/5">
+          <div class="w-20 h-20 rounded-full bg-gold-500/10 mx-auto mb-5 flex items-center justify-center">
+            <span class="font-display text-2xl text-gold-500">A</span>
+          </div>
+          <h3 class="font-display text-xl text-white mb-1">Antonio</h3>
+          <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-3">Tratamientos</p>
+          <p class="text-sm text-gray-400 leading-relaxed mb-4">Cuidado capilar y tratamientos reconstructivos. Experto en nutrición profunda.</p>
+          <span class="text-xs text-gold-500/50">9+ años</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- REVIEWS -->
+  <!-- ============================================ -->
+  <section class="py-24 md:py-32">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="mb-16">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500/70 mb-4 font-medium">Testimonios</p>
+        <h2 class="section-title text-white">Lo que dicen</h2>
+        <div class="hero-divider"></div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="review-card">
+          <div class="text-gold-500/30 text-5xl font-display leading-none mb-4">&ldquo;</div>
+          <p class="text-gray-300 leading-relaxed text-[0.9375rem] mb-6">Carlos me hizo un corte espectacular que llevaba tiempo buscando. El trato es increíble y el resultado, impecable.</p>
+          <p class="text-sm text-gray-500">Roberto García</p>
+        </div>
+        <div class="review-card">
+          <div class="text-gold-500/30 text-5xl font-display leading-none mb-4">&ldquo;</div>
+          <p class="text-gray-300 leading-relaxed text-[0.9375rem] mb-6">Miguel es un verdadero maestro. El mejor corte que me han hecho nunca. La barbería tiene un ambiente espectacular.</p>
+          <p class="text-sm text-gray-500">David Pérez</p>
+        </div>
+        <div class="review-card">
+          <div class="text-gold-500/30 text-5xl font-display leading-none mb-4">&ldquo;</div>
+          <p class="text-gray-300 leading-relaxed text-[0.9375rem] mb-6">Juan me asesoró sobre el corte que mejor me quedaba. Salí de allí sintiéndome genial. Altamente recomendado.</p>
+          <p class="text-sm text-gray-500">Miguel Sánchez</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- RESERVAS — CALENDARIO VISUAL -->
+  <!-- ============================================ -->
+  <section id="reservas" class="py-24 md:py-32 bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="mb-12">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500/70 mb-4 font-medium">Reservas</p>
+        <h2 class="section-title text-white">Reserva tu cita</h2>
+        <div class="hero-divider"></div>
+      </div>
+
+      <div class="bg-dark-700 rounded-2xl border border-white/5 overflow-hidden">
+        <!-- Barber Tabs -->
+        <div class="flex border-b border-white/5 overflow-x-auto">
+          <button class="barber-tab active flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-center border-b-2 border-gold-500 text-gold-500" data-barber="Carlos">Carlos</button>
+          <button class="barber-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-center border-b-2 border-transparent text-gray-400 hover:text-gray-200" data-barber="Miguel">Miguel</button>
+          <button class="barber-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-center border-b-2 border-transparent text-gray-400 hover:text-gray-200" data-barber="Juan">Juan</button>
+          <button class="barber-tab flex-1 min-w-[100px] px-4 py-4 text-sm font-medium text-center border-b-2 border-transparent text-gray-400 hover:text-gray-200" data-barber="Antonio">Antonio</button>
+        </div>
+
+        <div class="p-6 md:p-8">
+          <div class="grid lg:grid-cols-2 gap-8">
+            <!-- CALENDARIO -->
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <button id="prevMonth" class="p-2 text-gray-400 hover:text-gold-500 transition-colors" aria-label="Mes anterior">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <h3 id="monthYear" class="font-display text-lg text-white"></h3>
+                <button id="nextMonth" class="p-2 text-gray-400 hover:text-gold-500 transition-colors" aria-label="Mes siguiente">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-7 gap-1 mb-2">
+                <div class="text-center text-xs text-gray-500 font-medium py-2">LU</div>
+                <div class="text-center text-xs text-gray-500 font-medium py-2">MA</div>
+                <div class="text-center text-xs text-gray-500 font-medium py-2">MI</div>
+                <div class="text-center text-xs text-gray-500 font-medium py-2">JU</div>
+                <div class="text-center text-xs text-gray-500 font-medium py-2">VI</div>
+                <div class="text-center text-xs text-gray-500 font-medium py-2">SÁ</div>
+                <div class="text-center text-xs text-gray-500 font-medium py-2">DO</div>
+              </div>
+              <div id="calendarGrid" class="grid grid-cols-7 gap-1"></div>
+            </div>
+
+            <!-- SLOTS + FORM -->
+            <div>
+              <div id="slotsPanel">
+                <p class="text-sm text-gray-400 text-center py-12">Selecciona una fecha en el calendario para ver las horas disponibles.</p>
+              </div>
+
+              <div id="formPanel" class="hidden fade-in">
+                <h4 class="font-display text-lg text-white mb-1">Tus datos</h4>
+                <p id="bookingSummary" class="text-sm text-gray-400 mb-6"></p>
+                <form id="bookingForm" class="space-y-4">
+                  <div>
+                    <label class="input-label" for="name">Nombre</label>
+                    <input class="input-field" id="name" type="text" required placeholder="Tu nombre completo">
+                  </div>
+                  <div>
+                    <label class="input-label" for="email">Email</label>
+                    <input class="input-field" id="email" type="email" required placeholder="tu@email.com">
+                  </div>
+                  <div>
+                    <label class="input-label" for="phone">Teléfono</label>
+                    <input class="input-field" id="phone" type="tel" required placeholder="+34 612 345 678">
+                  </div>
+                  <div>
+                    <label class="input-label" for="service">Servicio</label>
+                    <select class="input-field" id="service" required>
+                      <option value="">Selecciona un servicio</option>
+                      <option value="Corte Clásico">Corte Clásico</option>
+                      <option value="Coloración">Coloración</option>
+                      <option value="Tratamiento Capilar">Tratamiento Capilar</option>
+                      <option value="Peinado Especial">Peinado Especial</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="input-label" for="notes">Notas (opcional)</label>
+                    <input class="input-field" id="notes" type="text" placeholder="Algo que debamos saber">
+                  </div>
+                  <button type="submit" class="btn-primary w-full justify-center mt-2">
+                    Confirmar Reserva
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </button>
+                </form>
+              </div>
+
+              <div id="confirmationPanel" class="hidden fade-in text-center py-8">
+                <div class="w-16 h-16 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-6">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.5" width="28" height="28"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <h4 class="font-display text-2xl text-white mb-2">Reserva confirmada</h4>
+                <p id="confirmationText" class="text-sm text-gray-400 mb-6"></p>
+                <button id="newBookingBtn" class="btn-secondary">Hacer otra reserva</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- LOCALIZACIÓN -->
+  <!-- ============================================ -->
+  <section id="localizacion" class="py-24 md:py-32">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="mb-16">
+        <p class="text-xs uppercase tracking-[0.2em] text-gold-500/70 mb-4 font-medium">Contacto</p>
+        <h2 class="section-title text-white">Encuéntranos</h2>
+        <div class="hero-divider"></div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="space-y-8">
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0 mt-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.3" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-1 font-medium">Dirección</p>
+              <p class="text-gray-300">Calle Principal, 123<br>28001 Madrid, España</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0 mt-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.3" width="18" height="18"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-1 font-medium">Teléfono</p>
+              <p class="text-gray-300">+34 91 234 5678</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0 mt-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.3" width="18" height="18"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-1 font-medium">Email</p>
+              <p class="text-gray-300">info@salonelegancia.es</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center shrink-0 mt-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.3" width="18" height="18"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gold-500/70 mb-1 font-medium">Horario</p>
+              <p class="text-gray-300">Lunes a Viernes: 09:00 - 20:00<br>Sábados: 10:00 - 18:00</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-dark-700 rounded-xl border border-white/5 p-8 flex items-center justify-center min-h-[280px]">
+          <div class="text-center">
+            <div class="w-16 h-16 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.3" width="24" height="24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <p class="text-sm text-gray-400">Calle Principal, 123 · Madrid</p>
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn-secondary text-sm py-2 px-4 mt-4 inline-flex">Ver en Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================ -->
+  <footer class="border-t border-white/5 py-12">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+        <div>
+          <p class="font-display text-lg text-gold-500 mb-4">ELEGANCIA</p>
+          <p class="text-sm text-gray-500 leading-relaxed">Barbería premium en Madrid. Profesionales apasionados por el arte del corte y el cuidado capilar.</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-wider text-gray-400 mb-4 font-medium">Enlaces</p>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li><a href="#servicios" class="hover:text-gold-500 transition-colors">Servicios</a></li>
+            <li><a href="#equipo" class="hover:text-gold-500 transition-colors">Equipo</a></li>
+            <li><a href="#reservas" class="hover:text-gold-500 transition-colors">Reservar</a></li>
+            <li><a href="#localizacion" class="hover:text-gold-500 transition-colors">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-wider text-gray-400 mb-4 font-medium">Contacto</p>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li>+34 91 234 5678</li>
+            <li>info@salonelegancia.es</li>
+            <li>Calle Principal, 123<br>28001 Madrid</li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-wider text-gray-400 mb-4 font-medium">Horario</p>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li>L-V: 09:00 - 20:00</li>
+            <li>Sáb: 10:00 - 18:00</li>
+            <li>Dom: Cerrado</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/5 pt-8 text-center text-xs text-gray-600">
+        &copy; 2026 Salón Elegancia. Todos los derechos reservados.
+      </div>
     </div>
   </footer>
 
-  <!-- NOTIFICATION -->
-  <div id="notification" class="notification"></div>
-
+  <!-- ============================================ -->
+  <!-- JAVASCRIPT -->
+  <!-- ============================================ -->
   <script>
-    // ===== CONFIGURACIÓN =====
+    // CONFIG
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbzC2xDG5gCgkqoWRoMPhDFPIDiYfTCdk_yP644ZkD3snTV6BbgD3Nx7WyWgHZsggYZO4g/exec';
     const CLOUDFLARE_PROXY = 'https://black-resonance-d395.ibonjon-mariscal.workers.dev/';
+    const BARBERS = ['Carlos', 'Miguel', 'Juan', 'Antonio'];
+    const DAYS_LABEL = ['LU', 'MA', 'MI', 'JU', 'VI', 'SA', 'DO'];
 
-    const CONFIG = {
-      HORARIO_INICIO: 9,
-      HORARIO_FIN: 20,
-      INTERVALO: 30
+    // STATE
+    let state = {
+      selectedBarber: 'Carlos',
+      selectedDate: null,
+      selectedTime: null,
+      currentMonth: new Date().getMonth(),
+      currentYear: new Date().getFullYear(),
+      occupiedSlots: [],
+      loading: false,
     };
 
-    let app = {
-      step: 1,
-      selectedBarbero: null,
-      selectedFecha: null,
-      selectedHora: null
-    };
+    // DOM REFS
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
 
-    // ===== UTILIDADES =====
-    function showNotification(message, type = 'success') {
-      const notif = document.getElementById('notification');
-      notif.textContent = message;
-      notif.className = `notification show ${type === 'error' ? 'error' : ''}`;
-      setTimeout(() => notif.classList.remove('show'), 3000);
+    const calendarGrid = document.getElementById('calendarGrid');
+    const monthYear = document.getElementById('monthYear');
+    const slotsPanel = document.getElementById('slotsPanel');
+    const formPanel = document.getElementById('formPanel');
+    const confirmationPanel = document.getElementById('confirmationPanel');
+    const bookingForm = document.getElementById('bookingForm');
+    const bookingSummary = document.getElementById('bookingSummary');
+    const confirmationText = document.getElementById('confirmationText');
+    const toast = document.getElementById('toast');
+    const nav = document.getElementById('navbar');
+    const navMenu = document.getElementById('navMenu');
+    const menuToggle = document.getElementById('menuToggle');
+
+    // NAVBAR SCROLL
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav-scrolled', window.scrollY > 50);
+    });
+
+    // MOBILE MENU
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+    });
+    navMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navMenu.classList.remove('open'));
+    });
+
+    // TOAST
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
     }
 
-    function formatDateSpanish(dateStr) {
-      const date = new Date(dateStr + 'T00:00:00');
-      return date.toLocaleDateString('es-ES', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+    // BARBER TABS
+    $$('.barber-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        $$('.barber-tab').forEach(t => {
+          t.classList.remove('active');
+          t.style.color = '';
+          t.style.borderColor = 'transparent';
+        });
+        tab.classList.add('active');
+        tab.style.color = '';
+        tab.style.borderColor = '';
+        state.selectedBarber = tab.dataset.barber;
+        state.selectedDate = null;
+        state.selectedTime = null;
+        formPanel.classList.add('hidden');
+        confirmationPanel.classList.add('hidden');
+        renderSlotsPanel('<p class="text-sm text-gray-400 text-center py-12">Selecciona una fecha en el calendario para ver las horas disponibles.</p>');
+        updateCalendar();
       });
-    }
+    });
 
-    function generateTimeSlots() {
-      const slots = [];
-      for (let hour = CONFIG.HORARIO_INICIO; hour < CONFIG.HORARIO_FIN; hour++) {
-        for (let min = 0; min < 60; min += CONFIG.INTERVALO) {
-          slots.push(`${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`);
-        }
-      }
-      return slots;
-    }
-
-    // ===== STEP NAVIGATION =====
-    function goToStep(step) {
-      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.step-item').forEach(s => s.classList.remove('active', 'completed'));
-
-      if (step === 'confirmation') {
-        document.getElementById('step-confirmation').classList.add('active');
-        document.querySelectorAll('.step-item').forEach(s => s.classList.add('completed'));
-      } else {
-        document.getElementById(`step-${step}`).classList.add('active');
-        for (let i = 1; i < step; i++) {
-          document.getElementById(`step-${i}-indicator`).classList.add('completed');
-        }
-        if (step <= 4) {
-          document.getElementById(`step-${step}-indicator`).classList.add('active');
-        }
-      }
-      app.step = step;
-    }
-
-    function prevStep(step) {
-      goToStep(step);
-    }
-
-    // ===== BARBERO SELECTION =====
-    function selectBarbero(nombre, element) {
-      document.querySelectorAll('.barbero-option').forEach(el => el.classList.remove('selected'));
-      element.classList.add('selected');
-      app.selectedBarbero = nombre;
-      goToStep(2);
-    }
-
-    // ===== CONFIRMAR FECHA =====
-    function confirmarFecha() {
-      const fecha = document.getElementById('fecha').value;
-      if (!fecha) {
-        showNotification('Por favor selecciona una fecha', 'error');
-        return;
-      }
-      selectFecha(fecha);
-    }
-
-    // ===== FECHA SELECTION =====
-    function selectFecha(fecha) {
-      const selectedDate = new Date(fecha + 'T00:00:00');
+    // CALENDAR
+    function updateCalendar() {
+      const month = state.currentMonth;
+      const year = state.currentYear;
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      if (selectedDate < today) {
-        showNotification('No puedes reservar en fechas pasadas', 'error');
-        document.getElementById('fecha').value = '';
-        return;
+      const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      monthYear.textContent = `${monthNames[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1);
+      const startOffset = (firstDay.getDay() + 6) % 7; // Monday start
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      let html = '';
+      for (let i = 0; i < startOffset; i++) {
+        html += '<div class="cal-day empty"></div>';
       }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(year, month, d);
+        date.setHours(0, 0, 0, 0);
+        const isToday = date.getTime() === today.getTime();
+        const isPast = date < today;
+        const isSelected = state.selectedDate === `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const dayOfWeek = date.getDay();
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-      app.selectedFecha = fecha;
-      goToStep(3);
-      loadHorarios();
-    }
+        let cls = 'cal-day';
+        if (isPast || isWeekend) cls += ' disabled';
+        if (isToday) cls += ' today';
+        if (isSelected) cls += ' selected';
 
-    // ===== CARGAR HORARIOS =====
-    function loadHorarios() {
-      const loading = document.getElementById('loading-horarios');
-      const grid = document.getElementById('horarios-grid');
-
-      loading.style.display = 'block';
-      grid.innerHTML = '';
-
-      const gasUrl = `${GAS_URL}?action=getAvailability&date=${app.selectedFecha}&barber=${app.selectedBarbero}`;
-      const proxyUrl = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(gasUrl)}`;
-
-      fetch(proxyUrl)
-        .then(response => response.json())
-        .then(data => {
-          loading.style.display = 'none';
-
-          if (!data.success) {
-            throw new Error(data.message);
-          }
-
-          const timeSlots = generateTimeSlots();
-          const occupiedSlots = data.occupiedSlots || [];
-
-          timeSlots.forEach(time => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'horario-btn';
-            button.textContent = time;
-
-            if (occupiedSlots.includes(time)) {
-              button.disabled = true;
-            } else {
-              button.addEventListener('click', () => selectHora(time, button));
-            }
-
-            grid.appendChild(button);
-          });
-        })
-        .catch(err => {
-          loading.style.display = 'none';
-          showNotification(`Error: ${err.message}`, 'error');
-        });
-    }
-
-    // ===== HORA SELECTION =====
-    function selectHora(hora, element) {
-      document.querySelectorAll('.horario-btn').forEach(el => el.classList.remove('selected'));
-      element.classList.add('selected');
-      app.selectedHora = hora;
-      updateResumen();
-      goToStep(4);
-    }
-
-    // ===== ACTUALIZAR RESUMEN =====
-    function updateResumen() {
-      const fechaFormato = formatDateSpanish(app.selectedFecha);
-      document.getElementById('resumen-barbero').textContent = app.selectedBarbero;
-      document.getElementById('resumen-fecha').textContent = fechaFormato;
-      document.getElementById('resumen-hora').textContent = app.selectedHora;
-    }
-
-    // ===== FORM SUBMIT =====
-    document.getElementById('reservas-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const servicio = document.getElementById('servicio').value;
-      const notas = document.getElementById('notas').value.trim();
-
-      if (!nombre || !email || !telefono || !servicio) {
-        showNotification('Por favor completa todos los campos', 'error');
-        return;
+        html += `<div class="${cls}" data-date="${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}" ${isPast || isWeekend ? '' : 'tabindex="0"'}>${d}</div>`;
       }
+      calendarGrid.innerHTML = html;
 
-      const submitBtn = document.querySelector('.form-btn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Procesando...';
+      // Click handlers
+      calendarGrid.querySelectorAll('.cal-day:not(.empty):not(.disabled)').forEach(el => {
+        el.addEventListener('click', () => selectDate(el.dataset.date));
+      });
+    }
 
-      try {
-        const formData = new FormData();
-        formData.append('action', 'createReservation');
-        formData.append('date', app.selectedFecha);
-        formData.append('time', app.selectedHora);
-        formData.append('barber', app.selectedBarbero);
-        formData.append('fullName', nombre);
-        formData.append('email', email);
-        formData.append('phone', telefono);
-        formData.append('notes', notas);
-
-        const proxyUrl = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(GAS_URL)}`;
-
-        const response = await fetch(proxyUrl, {
-          method: 'POST',
-          body: formData
-        });
-
-        const result = await response.json();
-
-        if (!result.success) {
-          throw new Error(result.message);
-        }
-
-        document.getElementById('conf-email').textContent = email;
-        document.getElementById('conf-barbero').textContent = app.selectedBarbero;
-        document.getElementById('conf-fecha').textContent = formatDateSpanish(app.selectedFecha);
-        document.getElementById('conf-hora').textContent = app.selectedHora;
-
-        goToStep('confirmation');
-        showNotification('¡Reserva confirmada exitosamente!', 'success');
-
-      } catch (err) {
-        showNotification(`Error: ${err.message}`, 'error');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Confirmar Reserva';
-      }
+    document.getElementById('prevMonth').addEventListener('click', () => {
+      state.currentMonth--;
+      if (state.currentMonth < 0) { state.currentMonth = 11; state.currentYear--; }
+      updateCalendar();
+    });
+    document.getElementById('nextMonth').addEventListener('click', () => {
+      state.currentMonth++;
+      if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; }
+      updateCalendar();
     });
 
-    // ===== RESET FORM =====
-    function resetForm() {
-      document.getElementById('reservas-form').reset();
-      app = { step: 1, selectedBarbero: null, selectedFecha: null, selectedHora: null };
-      goToStep(1);
+    // SELECT DATE
+    async function selectDate(dateStr) {
+      state.selectedDate = dateStr;
+      state.selectedTime = null;
+      formPanel.classList.add('hidden');
+      confirmationPanel.classList.add('hidden');
+
+      // Update calendar
+      calendarGrid.querySelectorAll('.cal-day').forEach(el => {
+        el.classList.toggle('selected', el.dataset.date === dateStr);
+      });
+
+      // Fetch availability
+      renderSlotsPanel('<p class="text-sm text-gray-400 text-center py-12">Cargando disponibilidad...</p>');
+      state.loading = true;
+
+      try {
+        const target = `${GAS_URL}?action=getAvailability&date=${dateStr}&barber=${encodeURIComponent(state.selectedBarber)}`;
+        const url = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(target)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        state.occupiedSlots = data.occupiedSlots || [];
+        renderSlots();
+      } catch (err) {
+        console.error(err);
+        renderSlotsPanel('<p class="text-sm text-red-400 text-center py-12">Error al cargar disponibilidad. Intenta de nuevo.</p>');
+      }
+      state.loading = false;
     }
 
-    // ===== DATE INPUT =====
-    const fechaInput = document.getElementById('fecha');
-    const hoy = new Date().toISOString().split('T')[0];
-    fechaInput.min = hoy;
+    // RENDER SLOTS
+    function renderSlots() {
+      const totalSlots = [];
+      for (let h = 9; h < 20; h++) {
+        totalSlots.push(`${String(h).padStart(2, '0')}:00`);
+        if (h < 20) totalSlots.push(`${String(h).padStart(2, '0')}:30`);
+      }
 
-    // ===== SMOOTH SCROLL =====
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href !== '#' && href.startsWith('#')) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
+      let html = '<div class="mb-4"><p class="text-sm text-gray-400">Horas disponibles para <span class="text-white font-medium">' + state.selectedDate + '</span></p></div><div class="grid grid-cols-3 sm:grid-cols-4 gap-2">';
+      totalSlots.forEach(slot => {
+        const occupied = state.occupiedSlots.includes(slot);
+        const selected = state.selectedTime === slot;
+        html += `<button class="slot-btn px-3 py-2.5 rounded-lg text-sm border text-center ${selected ? 'selected' : occupied ? 'border-white/5 text-gray-600' : 'border-white/10 text-gray-300 hover:border-gold-500/40'}" ${occupied ? 'disabled' : ''} data-slot="${slot}">${slot}</button>`;
       });
+      html += '</div>';
+      renderSlotsPanel(html);
+
+      // Click handlers
+      document.querySelectorAll('.slot-btn:not(:disabled)').forEach(btn => {
+        btn.addEventListener('click', () => selectTime(btn.dataset.slot));
+      });
+    }
+
+    function renderSlotsPanel(html) {
+      slotsPanel.innerHTML = html;
+    }
+
+    // SELECT TIME
+    function selectTime(slot) {
+      state.selectedTime = slot;
+      document.querySelectorAll('.slot-btn').forEach(b => {
+        b.classList.toggle('selected', b.dataset.slot === slot);
+      });
+      showForm();
+    }
+
+    // SHOW FORM
+    function showForm() {
+      const barber = state.selectedBarber;
+      const date = state.selectedDate;
+      const time = state.selectedTime;
+      const dateObj = new Date(date + 'T' + time);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formatted = dateObj.toLocaleDateString('es-ES', options);
+
+      bookingSummary.textContent = `${barber} · ${formatted} · ${time}`;
+      formPanel.classList.remove('hidden');
+      confirmationPanel.classList.add('hidden');
+
+      // Scroll form into view on mobile
+      if (window.innerWidth < 1024) {
+        formPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // SUBMIT FORM
+    bookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const service = document.getElementById('service').value;
+      const notes = document.getElementById('notes').value.trim();
+
+      if (!name || !email || !phone || !service) {
+        showToast('Por favor, completa todos los campos obligatorios.');
+        return;
+      }
+
+      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Reservando...';
+
+      try {
+        const formData = new URLSearchParams();
+        formData.append('action', 'createReservation');
+        formData.append('barber', state.selectedBarber);
+        formData.append('date', state.selectedDate);
+        formData.append('time', state.selectedTime);
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('phone', phone);
+        formData.append('service', service);
+        formData.append('notes', notes);
+
+        const target = GAS_URL;
+        const url = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(target)}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
+        });
+
+        const result = await res.json();
+        if (result.status === 'success' || result.success) {
+          showConfirmation(name);
+          bookingForm.reset();
+        } else {
+          showToast('Error al crear la reserva. Intenta de nuevo.');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Error de conexión. Verifica tu internet.');
+      }
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Confirmar Reserva <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+    });
+
+    // CONFIRMATION
+    function showConfirmation(name) {
+      formPanel.classList.add('hidden');
+      slotsPanel.innerHTML = '';
+      confirmationPanel.classList.remove('hidden');
+      confirmationText.innerHTML = `Te hemos enviado un email de confirmación a <strong class="text-white">${document.getElementById('email').value}</strong>.<br><br><span class="text-sm text-gray-500">${state.selectedBarber} · ${state.selectedDate} · ${state.selectedTime}</span>`;
+    }
+
+    document.getElementById('newBookingBtn').addEventListener('click', () => {
+      state.selectedDate = null;
+      state.selectedTime = null;
+      confirmationPanel.classList.add('hidden');
+      renderSlotsPanel('<p class="text-sm text-gray-400 text-center py-12">Selecciona una fecha en el calendario para ver las horas disponibles.</p>');
+      updateCalendar();
+    });
+
+    // INIT
+    updateCalendar();
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) navMenu.classList.remove('open');
     });
   </script>
 </body>
