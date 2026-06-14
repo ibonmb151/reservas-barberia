@@ -730,11 +730,10 @@
         formData.append('barber', state.selectedBarber);
         formData.append('date', state.selectedDate);
         formData.append('time', state.selectedTime);
-        formData.append('name', name);
+        formData.append('fullName', name);
         formData.append('email', email);
         formData.append('phone', phone);
-        formData.append('service', service);
-        formData.append('notes', notes);
+        formData.append('notes', (service ? 'Servicio: ' + service + '. ' : '') + notes);
 
         const target = GAS_URL;
         const url = `${CLOUDFLARE_PROXY}?target=${encodeURIComponent(target)}`;
